@@ -1,9 +1,7 @@
 import { Request, Response } from "express"
 
 class AuthServices {
-  async register(req: Request, res: Response) {}
-  async login(req: Request, res: Response) {}
-  async logout(res: Response) {}
+  createTokens = async (user: any) => {}
 }
 
-export default new AuthServices()
+export default AuthServices

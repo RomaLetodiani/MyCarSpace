@@ -1,13 +1,30 @@
 import asyncHandler from "express-async-handler"
 import { Request, Response } from "express"
-import AuthServices from "../services/Auth.Service"
+import AuthServices from "../Services/Auth.Service"
 
 class AuthController {
-  registerUser = asyncHandler(async (req: Request, res: Response) => {})
+  private readonly authServices: AuthServices
+  constructor() {
+    this.authServices = new AuthServices()
+  }
 
-  loginUser = asyncHandler(async (req: Request, res: Response) => {})
+  registerUser = asyncHandler(async (req: Request, res: Response) => {
+    res.status(200).json({
+      message: "User registered successfully",
+    })
+  })
 
-  logoutUser = asyncHandler(async (__, res: Response) => {})
+  loginUser = asyncHandler(async (req: Request, res: Response) => {
+    res.status(200).json({
+      message: "User logged in successfully",
+    })
+  })
+
+  logoutUser = asyncHandler(async (req: Request, res: Response) => {
+    res.status(200).json({
+      message: "User logged out successfully",
+    })
+  })
 }
 
 export default new AuthController()

@@ -1,6 +1,6 @@
 import express from "express"
-import AuthController from "src/Controllers/Auth.Controller"
-import { authenticateUser } from "src/Middlewares/Auth.Middleware"
+import AuthController from "../Controllers/Auth.Controller"
+import { authenticateUser } from "../Middlewares/Auth.Middleware"
 
 const router = express.Router()
 // Register a user (No Authentication required)
