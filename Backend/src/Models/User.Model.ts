@@ -1,12 +1,11 @@
 import mongoose, { Schema, Document } from "mongoose"
 import bcrypt from "bcrypt"
-import { hashPassword } from "../utils/auth"
+import { hashPassword } from "../Utils/Auth"
 
 export interface UserDocument extends Document {
   username: string
   email: string
   password: string
-  verified: boolean
   comparePassword(candidatePassword: string): Promise<boolean>
 }
 
@@ -15,7 +14,6 @@ const userSchema: Schema = new Schema(
     username: { type: String, unique: true, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    verified: { type: Boolean, required: true, default: false },
   },
   { versionKey: false, timestamps: true },
 )

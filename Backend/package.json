@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "build": "tsc",
-    "dev": "nodemon src/index.ts",
+    "dev": "nodemon --exec ts-node src/index.ts",
     "test": "jest"
   },
   "repository": "https://github.com/RomaLetodiani/Node-Express-TypeScript-BoilerPlate",
@@ -31,8 +31,8 @@
     "express-rate-limit": "^7.2.0",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.4.1",
     "nodemailer": "^6.9.13",
-    "nodemon": "^3.1.0",
     "randombytes": "^2.1.0",
     "uuid": "^9.0.1"
   },
@@ -44,6 +44,7 @@
     "@types/nodemailer": "^6.4.15",
     "@types/randombytes": "^2.0.3",
     "@types/uuid": "^9.0.8",
+    "nodemon": "^3.1.3",
     "ts-node": "^10.9.2"
   }
 }
