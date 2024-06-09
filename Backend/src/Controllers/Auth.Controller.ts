@@ -8,21 +8,38 @@ class AuthController {
     this.authServices = new AuthServices()
   }
 
-  registerUser = asyncHandler(async (req: Request, res: Response) => {
-    res.status(200).json({
-      message: "User registered successfully",
+  // Reusable method for handling unimplemented endpoints
+  private handleNotImplemented = (req: Request, res: Response) => {
+    res.status(501).json({
+      message: "Not Implemented Yet",
     })
-  })
+  }
+
+  registerUser = asyncHandler(this.handleNotImplemented)
+  logoutUser = asyncHandler(this.handleNotImplemented)
 
   loginUser = asyncHandler(async (req: Request, res: Response) => {
+    const { username, password } = req.body
+    const { accessToken, refreshToken } = await this.authServices.createTokens({
+      username,
+      password,
+    })
+
     res.status(200).json({
-      message: "User logged in successfully",
+      accessToken,
+      refreshToken,
     })
   })
 
-  logoutUser = asyncHandler(async (req: Request, res: Response) => {
+  refreshTokens = asyncHandler(async (req: Request, res: Response) => {
+    const refreshToken = req.body.refreshToken
+    const { accessToken, refreshToken: newRefreshToken } = await this.authServices.refreshTokens(
+      refreshToken,
+    )
+
     res.status(200).json({
-      message: "User logged out successfully",
+      accessToken,
+      refreshToken: newRefreshToken,
     })
   })
 }

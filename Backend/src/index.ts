@@ -3,13 +3,16 @@ import express from "express"
 import { JwtPayload } from "jsonwebtoken"
 import authRoutes from "./Routes/Auth.Routes"
 import helmet from "helmet"
+import cors from "cors"
 import bodyParser from "body-parser"
 import { errorHandler } from "./Middlewares/Error.middleware"
+import ConnectMongoDB from "./Database/MongoDB"
+import { decodedUser, seedAdmin } from "./Utils/Auth"
 
 declare global {
   namespace Express {
     interface Request {
-      user?: string | JwtPayload
+      user?: decodedUser
     }
   }
 }
@@ -19,6 +22,8 @@ dotenv.config()
 
 // Create an Express application
 const app = express()
+
+app.use(cors())
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -42,4 +47,8 @@ app.listen(PORT, () => {
   if (process.env.NODE_ENV === "development") {
     console.log(`Server is running on port http://localhost:${PORT}`)
   }
+})
+
+ConnectMongoDB().then(async () => {
+  await seedAdmin()
 })

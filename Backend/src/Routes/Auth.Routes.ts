@@ -12,4 +12,7 @@ router.post("/login", AuthController.loginUser)
 // Logout a user (Authentication required)
 router.post("/logout", authenticateUser, AuthController.logoutUser)
 
+// Refresh tokens (No Authentication required)
+router.post("/refresh-tokens", AuthController.refreshTokens)
+
 export default router
