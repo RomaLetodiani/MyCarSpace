@@ -1,31 +1,20 @@
 import { createBrowserRouter } from 'react-router-dom'
 import Root from './Root'
-import ErrorPage from '../pages/Error/ErrorPage'
 import Home from '../pages/Home/Home'
-import PrivateRoute from './PrivateRoute'
 import Profile from '../pages/Profile/Profile'
+import AdminRoute from './AdminRoute'
+import Login from '../pages/Auth/Login'
 
 const Router = createBrowserRouter([
   {
-    path: '/',
-    element: <Root />,
-    errorElement: <ErrorPage />,
+    element: <AdminRoute />,
     children: [
-      {
-        path: '/',
-        element: <Home />,
-      },
-      {
-        element: <PrivateRoute />,
-        children: [
-          {
-            path: '/profile',
-            element: <Profile />,
-          },
-        ],
-      },
+      { path: '/', element: <Root /> },
+      { path: 'home', element: <Home /> },
+      { path: 'profile', element: <Profile /> },
     ],
   },
+  { path: 'login', element: <Login /> },
 ])
 
 export default Router
