@@ -1,31 +1,55 @@
-import { InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes } from 'react'
+import { twMerge } from 'tailwind-merge'
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  // Additional props specific to Input component can be defined here
-  label?: string;
-  hasError?: boolean;
-  errorMessage?: string;
-  labelClassName?: string;
-  errorClassName?: string;
+interface inputI extends InputHTMLAttributes<HTMLInputElement> {
+  label?: string
+  labelClassName?: string
+  inputClassName?: string
+  wrapperClassName?: string
+  errorMessage?: string
+  hasError?: boolean
+  focus?: boolean
 }
 
 const Input = ({
   label,
-  hasError,
-  errorMessage,
   labelClassName,
-  errorClassName,
+  inputClassName,
+  wrapperClassName,
+  errorMessage,
+  hasError,
+  focus,
   ...rest
-}: InputProps) => {
-  const labelClass = labelClassName + 'rest goes here';
-  const errorClass = errorClassName + 'rest goes here';
+}: inputI) => {
   return (
-    <div>
-      {label && <label className={labelClass} htmlFor={rest.name}></label>}
-      <input {...rest} />
-      {hasError && <p className={errorClass}>{errorMessage}</p>}
-    </div>
-  );
-};
+    <div className={twMerge('relative w-full', wrapperClassName)}>
+      <label
+        htmlFor={rest.id}
+        className={twMerge(
+          'absolute left-3 pointer-events-none transition-all',
+          `${
+            focus
+              ? 'top-1 text-sm text-primary'
+              : 'transform top-1/2 -translate-y-1/2 text-secondary-200'
+          }`,
+          hasError && 'text-error',
+          labelClassName,
+        )}
+      >
+        {label}
+      </label>
+      <input
+        {...rest}
+        className={twMerge(
+          'w-full border outline-none px-3 py-2 rounded-xl',
+          label && 'pt-5',
+          `${hasError && 'border-error'}`,
 
-export default Input;
+          inputClassName,
+        )}
+      />
+    </div>
+  )
+}
+
+export default Input
