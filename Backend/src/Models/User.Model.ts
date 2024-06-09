@@ -2,10 +2,16 @@ import mongoose, { Schema, Document } from "mongoose"
 import bcrypt from "bcrypt"
 import { hashPassword } from "../Utils/Auth"
 
+export enum Role {
+  ADMIN = "admin",
+  USER = "user",
+}
+
 export interface UserDocument extends Document {
   username: string
   email: string
   password: string
+  role: Role
   comparePassword(candidatePassword: string): Promise<boolean>
 }
 
@@ -14,6 +20,7 @@ const userSchema: Schema = new Schema(
     username: { type: String, unique: true, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
+    role: { type: String, enum: [Role.ADMIN, Role.USER], default: Role.USER },
   },
   { versionKey: false, timestamps: true },
 )
