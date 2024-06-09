@@ -2,8 +2,11 @@ import { createBrowserRouter } from 'react-router-dom'
 import Root from './Root'
 import ErrorPage from '../pages/Error/ErrorPage'
 import Home from '../pages/Home/Home'
-import PrivateRoute from './PrivateRoute'
-import Profile from '../pages/Profile/Profile'
+import Contact from '../pages/Contact/Contact'
+import Shop from '../pages/Shop/Shop'
+import Product from '../pages/Product/Product'
+import About from '../pages/About/About'
+import FAQ from '../pages/FAQ/FAQ'
 
 const Router = createBrowserRouter([
   {
@@ -16,11 +19,24 @@ const Router = createBrowserRouter([
         element: <Home />,
       },
       {
-        element: <PrivateRoute />,
+        path: 'about',
+        element: <About />,
+      },
+      {
+        path: 'contact',
+        element: <Contact />,
+      },
+      {
+        path: 'faq',
+        element: <FAQ />,
+      },
+      {
+        path: 'shop',
+        element: <Shop />,
         children: [
           {
-            path: '/profile',
-            element: <Profile />,
+            path: ':id',
+            element: <Product />,
           },
         ],
       },
