@@ -1,7 +1,7 @@
 import dotenv from "dotenv"
 import express from "express"
-import { JwtPayload } from "jsonwebtoken"
 import authRoutes from "./Routes/Auth.Routes"
+import productRoutes from "./Routes/Product.Routes"
 import helmet from "helmet"
 import cors from "cors"
 import bodyParser from "body-parser"
@@ -36,8 +36,9 @@ app.get("/", (req, res) => {
   res.send("Hello, world!")
 })
 
-// Define a route that requires authentication
+// Define routes
 app.use("/api/auth", authRoutes)
+app.use("/api/product", productRoutes)
 
 app.use(errorHandler)
 

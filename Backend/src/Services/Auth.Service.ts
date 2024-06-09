@@ -39,7 +39,7 @@ class AuthServices {
   refreshTokens = async (refreshToken: string): Promise<Tokens> => {
     const decodedUser = await this.verifyAndDecodeRefreshToken(refreshToken)
 
-    const user = await User.findOne({ username: decodedUser.username })
+    const user = await User.findOne({ username: decodedUser?.username })
 
     if (!user) {
       throw new CustomError("User not found", 404)
@@ -63,12 +63,12 @@ class AuthServices {
         !verifiedToken.exp ||
         Date.now() / 1000 > verifiedToken.exp
       ) {
-        throw new CustomError("Invalid or expired refresh token", 401)
+        throw new CustomError("Invalid or expired refresh token", 404)
       }
 
       return decodeToken(token)
     } catch (error) {
-      throw new CustomError("Invalid refresh token", 401)
+      throw new CustomError("Invalid refresh token", 404)
     }
   }
 }
