@@ -1,4 +1,4 @@
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import Button from '../../components/UI/Button'
 import Input from '../../components/UI/Input'
 import { useInput } from '../../hooks/useInput'
@@ -41,9 +41,7 @@ const Login = () => {
       })
   }
   return (
-    <div className="flex bg-slate-200 items-center justify-center flex-col min-w-[375px] min-h-screen w-full">
-      <ToastContainer />
-
+    <div className="flex bg-slate-200 items-center justify-center flex-col flex-1">
       <h1 className="font-bold text-xl">Welcome Back Admin</h1>
       <p className="text-xs">Please Sign In</p>
       <form
