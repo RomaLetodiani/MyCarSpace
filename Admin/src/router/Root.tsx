@@ -4,7 +4,7 @@ import { ToastContainer } from 'react-toastify'
 
 const Root = () => {
   return (
-    <div className="flex flex-col w-full h-full min-w-[375px] min-h-screen">
+    <div className="flex relative flex-col w-full h-full min-w-[375px] min-h-screen">
       <ToastContainer />
       <Outlet />
     </div>

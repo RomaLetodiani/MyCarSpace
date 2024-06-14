@@ -1,11 +1,20 @@
 import { toast } from 'react-toastify'
-import Logo from '../../components/Logo'
-import Button from '../../components/UI/Button'
 import AuthStore from '../../store/Auth.Store'
+import { Outlet } from 'react-router-dom'
+import Sidebar from './Sidebar'
+import { useState } from 'react'
+import useMediaQuery from '../../hooks/useMediaQuery'
+import RightSightBar from './RightSightBar'
 // import authService from '../../services/Auth.Service'
 
 const Admin = () => {
   const { clearTokens } = AuthStore()
+  const [isSideBarOpen, setIsSideBarOpen] = useState(false)
+  const isNotMobile = useMediaQuery('(min-width: 768px)')
+
+  const handleToggle = () => {
+    setIsSideBarOpen((prev) => !prev)
+  }
 
   const handleLogout = () => {
     //! FIXME: Add This when backend service will be ready
@@ -15,23 +24,12 @@ const Admin = () => {
     toast.success('წარმატებით გახვედით სისტემიდან')
   }
   return (
-    <div className="flex">
-      <div className="p-5 flex flex-col gap-5 items-center justify-between h-screen shadow-xl ">
-        <div className="flex flex-col gap-10">
-          <Logo maxWidth="w-[100px]" />
-          <ul>
-            <li>პროდუქტები</li>
-            <li>კატეგორიები</li>
-          </ul>
-        </div>
-        <div>
-          <Button onClick={handleLogout} className="bg-sky-300">
-            გასვლა
-          </Button>
-        </div>
+    <div className="flex flex-col md:flex-row">
+      <Sidebar toggle={handleToggle} isOpen={isSideBarOpen} isMobile={!isNotMobile} />
+      <div className="h-screen overflow-auto md:flex-1 pt-[132px] md:pt-0 bg-slate-100">
+        <Outlet />
       </div>
-      <div className="flex-1 bg-slate-100"></div>
-      <div className="p-5 h-screen shadow-xl"></div>
+      {isNotMobile && <RightSightBar handleLogout={handleLogout} />}
     </div>
   )
 }
