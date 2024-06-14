@@ -7,7 +7,7 @@ export interface CategoryDocument extends Document {
 
 const categorySchema: Schema = new Schema(
   {
-    name: { type: String, required: true },
+    name: { type: String, unique: true, required: true },
     isArchived: { type: Boolean, required: true, default: false },
   },
   { versionKey: false, timestamps: true },
@@ -22,4 +22,4 @@ categorySchema.pre("deleteMany", async function (next) {
   next()
 })
 
-export const User = mongoose.model<CategoryDocument>("Category", categorySchema)
+export const Category = mongoose.model<CategoryDocument>("Category", categorySchema)
