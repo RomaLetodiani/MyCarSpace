@@ -1,3 +1,5 @@
+import { categoryCreateDTO, categoryUpdateDTO } from "../DTO/Category.dto"
+import { idsDTO } from "../DTO/Shared.dto"
 import { CustomError } from "../Error/CustomError"
 import { Category } from "../Models/Category.Model"
 
@@ -15,31 +17,31 @@ class CategoryServices {
     return category
   }
 
-  create = async (categoryData: any) => {
+  create = async (categoryData: categoryCreateDTO) => {
     const category = new Category(categoryData)
     await category.save()
     return category
   }
 
-  update = async ({ id, categoryData }: { id: string; categoryData: any }) => {
+  update = async ({ id, categoryData }: { id: string; categoryData: categoryUpdateDTO }) => {
     const category = await Category.findOneAndUpdate({ _id: id }, categoryData, { new: true })
     if (!category) throw categoryNotFoundError
     return category
   }
 
-  archive = async ({ ids }: { ids: string[] }) => {
+  archive = async ({ ids }: { ids: idsDTO }) => {
     const result = await Category.updateMany({ _id: { $in: ids } }, { isArchived: true })
     if (result.modifiedCount === 0) throw categoryNotFoundError
     return result
   }
 
-  delete = async ({ ids }: { ids: string[] }) => {
+  delete = async ({ ids }: { ids: idsDTO }) => {
     const result = await Category.deleteMany({ _id: { $in: ids } })
     if (result.deletedCount === 0) throw categoryNotFoundError
     return result
   }
 
-  restore = async ({ ids }: { ids: string[] }) => {
+  restore = async ({ ids }: { ids: idsDTO }) => {
     const result = await Category.updateMany({ _id: { $in: ids } }, { isArchived: false })
     if (result.modifiedCount === 0) throw categoryNotFoundError
     return result

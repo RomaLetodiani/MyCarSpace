@@ -1,6 +1,7 @@
 import { User } from "../Models/User.Model"
 import { CustomError } from "../Error/CustomError"
 import { decodeToken, generateTokens, verifyToken } from "../Utils/Auth"
+import { refreshTokenDTO } from "../DTO/Auth.dto"
 
 interface Credentials {
   username: string
@@ -36,8 +37,8 @@ class AuthServices {
     return { accessToken, refreshToken }
   }
 
-  refreshTokens = async (refreshToken: string): Promise<Tokens> => {
-    const decodedUser = await this.verifyAndDecodeRefreshToken(refreshToken)
+  refreshTokens = async ({ refreshToken }: refreshTokenDTO): Promise<Tokens> => {
+    const decodedUser = await this.verifyAndDecodeRefreshToken({ refreshToken })
 
     const user = await User.findOne({ username: decodedUser?.username })
 
@@ -54,9 +55,9 @@ class AuthServices {
     return { accessToken, refreshToken: newRefreshToken }
   }
 
-  private verifyAndDecodeRefreshToken = async (token: string) => {
+  private verifyAndDecodeRefreshToken = async ({ refreshToken }: refreshTokenDTO) => {
     try {
-      const verifiedToken = await verifyToken(token)
+      const verifiedToken = await verifyToken(refreshToken)
 
       if (
         typeof verifiedToken === "string" ||
@@ -66,7 +67,7 @@ class AuthServices {
         throw new CustomError("Invalid or expired refresh token", 404)
       }
 
-      return decodeToken(token)
+      return decodeToken(refreshToken)
     } catch (error) {
       throw new CustomError("Invalid refresh token", 404)
     }

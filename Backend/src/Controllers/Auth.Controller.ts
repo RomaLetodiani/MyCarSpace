@@ -32,10 +32,10 @@ class AuthController {
   })
 
   refreshTokens = asyncHandler(async (req: Request, res: Response) => {
-    const refreshToken = req.body.refreshToken
-    const { accessToken, refreshToken: newRefreshToken } = await this.authServices.refreshTokens(
+    const { refreshToken } = req.body
+    const { accessToken, refreshToken: newRefreshToken } = await this.authServices.refreshTokens({
       refreshToken,
-    )
+    })
 
     res.status(200).json({
       accessToken,

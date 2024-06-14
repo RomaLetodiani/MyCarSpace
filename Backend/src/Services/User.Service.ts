@@ -1,8 +1,9 @@
 import { User } from "../Models/User.Model"
 import { CustomError } from "../Error/CustomError"
+import { currentUserDTO } from "../DTO/User.dto"
 
 class UserServices {
-  findOne = async ({ username }: { username: string }) => {
+  findOne = async ({ username }: currentUserDTO) => {
     const user = await User.findOne({ username })
 
     if (!user) {

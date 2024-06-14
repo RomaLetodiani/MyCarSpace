@@ -15,14 +15,15 @@ class UserController {
     this.userServices = new UserServices()
   }
 
-  GetCurrentUser = asyncHandler((req: Request, res: Response) => {
+  GetCurrentUser = asyncHandler(async (req: Request, res: Response) => {
     const decodedUser = req.user
 
     if (!decodedUser) {
       throw new CustomError("User not found", 404)
     }
 
-    const user = this.userServices.findOne({ username: decodedUser.username })
+    const user = await this.userServices.findOne({ username: decodedUser.username })
+    res.status(200).json(user)
   })
 
   UpdateCurrentUser = asyncHandler(this.handleNotImplemented)
