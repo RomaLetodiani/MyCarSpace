@@ -2,6 +2,7 @@ import dotenv from "dotenv"
 import express from "express"
 import authRoutes from "./Routes/Auth.Routes"
 import productRoutes from "./Routes/Product.Routes"
+import categoryRoutes from "./Routes/Category.Routes"
 import helmet from "helmet"
 import cors from "cors"
 import bodyParser from "body-parser"
@@ -39,6 +40,7 @@ app.get("/", (req, res) => {
 // Define routes
 app.use("/api/auth", authRoutes)
 app.use("/api/product", productRoutes)
+app.use("/api/category", categoryRoutes)
 
 app.use(errorHandler)
 
