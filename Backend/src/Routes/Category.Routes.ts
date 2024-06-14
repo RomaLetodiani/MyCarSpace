@@ -2,6 +2,9 @@ import express from "express"
 import { authenticateUser } from "../Middlewares/Auth.Middleware"
 import { authenticateAdmin } from "../Middlewares/Admin.middleware"
 import CategoryController from "../Controllers/Category.Controller"
+import { validateDTO } from "../Middlewares/Validate.middlware"
+import { idsDTO } from "../DTO/Shared.dto"
+import { categoryCreateDTO, categoryUpdateDTO } from "../DTO/Category.dto"
 
 const router = express.Router()
 
@@ -12,18 +15,48 @@ router.get("/", CategoryController.getCategories)
 router.get("/:id", CategoryController.getCategory)
 
 // Create a new category (authentication and admin rights required)
-router.post("/", authenticateUser, authenticateAdmin, CategoryController.createCategory)
+router.post(
+  "/",
+  validateDTO(categoryCreateDTO),
+  authenticateUser,
+  authenticateAdmin,
+  CategoryController.createCategory,
+)
 
 // Update a specific category by its ID (authentication and admin rights required)
-router.put("/:id", authenticateUser, authenticateAdmin, CategoryController.updateCategory)
+router.put(
+  "/:id",
+  validateDTO(categoryUpdateDTO),
+  authenticateUser,
+  authenticateAdmin,
+  CategoryController.updateCategory,
+)
 
 // Archive specific categories by their IDs (authentication and admin rights required)
-router.patch("/", authenticateUser, authenticateAdmin, CategoryController.archiveCategories)
+router.patch(
+  "/archive",
+  validateDTO(idsDTO),
+  authenticateUser,
+  authenticateAdmin,
+  CategoryController.archiveCategories,
+)
 
 // Restore specific categories by their IDs (authentication and admin rights required)
-router.patch("/", authenticateUser, authenticateAdmin, CategoryController.restoreCategories)
+router.patch(
+  "/restore",
+  validateDTO(idsDTO),
+  authenticateUser,
+  authenticateAdmin,
+  CategoryController.restoreCategories,
+)
 
 // Delete specific categories by their IDs (authentication and admin rights required)
-router.delete("/", authenticateUser, authenticateAdmin, CategoryController.deleteCategories)
+router.delete(
+  "/",
+  validateDTO(idsDTO),
+  authenticateUser,
+  authenticateAdmin,
+  CategoryController.deleteCategories,
+)
 
 export default router

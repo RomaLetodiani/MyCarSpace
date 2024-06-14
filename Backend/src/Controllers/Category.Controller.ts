@@ -8,52 +8,52 @@ class CategoryController {
     this.CategoryServices = new CategoryServices()
   }
 
-  getCategories = asyncHandler((req: Request, res: Response) => {
+  getCategories = asyncHandler(async (req: Request, res: Response) => {
     const params = req.query
-    const result = this.CategoryServices.findAll(params)
+    const result = await this.CategoryServices.findAll(params)
     res.status(200).json(result)
   })
 
-  getCategory = asyncHandler((req: Request, res: Response) => {
+  getCategory = asyncHandler(async (req: Request, res: Response) => {
     const id = req.params.id
 
-    const result = this.CategoryServices.findOne({ id })
+    const result = await this.CategoryServices.findOne({ id })
     res.status(200).json(result)
   })
 
-  createCategory = asyncHandler((req: Request, res: Response) => {
+  createCategory = asyncHandler(async (req: Request, res: Response) => {
     const categoryData = req.body
 
-    const result = this.CategoryServices.create(categoryData)
+    const result = await this.CategoryServices.create(categoryData)
     res.status(201).json(result)
   })
 
-  updateCategory = asyncHandler((req: Request, res: Response) => {
+  updateCategory = asyncHandler(async (req: Request, res: Response) => {
     const id = req.params.id
     const categoryData = req.body
 
-    const result = this.CategoryServices.update({ id, categoryData })
+    const result = await this.CategoryServices.update({ id, categoryData })
     res.status(200).json(result)
   })
 
-  archiveCategories = asyncHandler((req: Request, res: Response) => {
+  archiveCategories = asyncHandler(async (req: Request, res: Response) => {
     const ids = req.body.ids
 
-    const result = this.CategoryServices.archive({ ids })
+    const result = await this.CategoryServices.archive({ ids })
     res.status(200).json(result)
   })
 
-  restoreCategories = asyncHandler((req: Request, res: Response) => {
+  restoreCategories = asyncHandler(async (req: Request, res: Response) => {
     const ids = req.body.ids
 
-    const result = this.CategoryServices.restore({ ids })
+    const result = await this.CategoryServices.restore({ ids })
     res.status(200).json(result)
   })
 
-  deleteCategories = asyncHandler((req: Request, res: Response) => {
+  deleteCategories = asyncHandler(async (req: Request, res: Response) => {
     const ids = req.body.ids
 
-    const result = this.CategoryServices.delete({ ids })
+    const result = await this.CategoryServices.delete({ ids })
     res.status(200).json(result)
   })
 }
