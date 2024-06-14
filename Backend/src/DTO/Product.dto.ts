@@ -1,10 +1,12 @@
 import {
   IsBase64,
+  IsBoolean,
   IsMongoId,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
+  Max,
   Min,
 } from "class-validator"
 import { idDTO } from "./Shared.dto"
@@ -71,4 +73,34 @@ export class productUpdateDTO extends idDTO {
   @IsMongoId()
   @IsOptional()
   category!: string
+}
+
+export class productParamsDTO {
+  @IsOptional()
+  @IsString()
+  title!: string
+
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(10000)
+  minPrice!: number
+
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(10000)
+  maxPrice!: number
+
+  @IsOptional()
+  @IsBoolean()
+  onlySales!: boolean
+
+  @IsOptional()
+  @IsString()
+  category!: string
+
+  @IsOptional()
+  @IsBoolean()
+  isArchived!: boolean
 }

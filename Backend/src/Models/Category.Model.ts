@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose"
+import { CustomError } from "../Error/CustomError"
 
 export interface CategoryDocument extends Document {
   name: string
@@ -22,7 +23,7 @@ categorySchema.pre("updateMany", async function (next) {
     const productsCount = await mongoose.model("Product").countDocuments({ category: categoryId })
 
     if (productsCount > 0) {
-      throw new Error("Cannot archive category with associated products")
+      throw new CustomError("Cannot archive category with associated products", 400)
     }
   }
 
@@ -33,7 +34,7 @@ categorySchema.pre("deleteMany", async function (next) {
   const categoryId = this.getQuery()["_id"]
   const productsCount = await mongoose.model("Product").countDocuments({ category: categoryId })
   if (productsCount > 0) {
-    throw new Error("Cannot delete category with associated products")
+    throw new CustomError("Cannot delete category with associated products", 400)
   }
   next()
 })

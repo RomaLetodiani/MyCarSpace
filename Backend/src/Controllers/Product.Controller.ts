@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import asyncHandler from "express-async-handler"
 import ProductServices from "../Services/Product.Service"
+import { productParamsDTO } from "../DTO/Product.dto"
 
 class ProductController {
   private ProductServices: ProductServices
@@ -9,7 +10,7 @@ class ProductController {
   }
 
   getProducts = asyncHandler(async (req: Request, res: Response) => {
-    const params = req.query
+    const params = req.query as unknown as productParamsDTO
     const result = await this.ProductServices.findAll(params)
     res.status(200).json(result)
   })
