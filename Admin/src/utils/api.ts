@@ -1,7 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 import AuthStore from '../store/Auth.Store'
-import { authService } from '../services/AuthServices'
+import authService from '../services/Auth.Service'
 
 const api = axios.create({
   baseURL:

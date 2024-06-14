@@ -1,12 +1,12 @@
-import { toast } from 'react-toastify'
 import Button from '../../components/UI/Button'
 import Input from '../../components/UI/Input'
-import { useInput } from '../../hooks/useInput'
+import authService from '../../services/Auth.Service'
 import AuthStore from '../../store/Auth.Store'
-import 'react-toastify/dist/ReactToastify.css'
-import { authService } from '../../services/AuthServices'
+import { useInput } from '../../hooks/useInput'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Login = () => {
   const { setTokens, isAuthenticated } = AuthStore()
