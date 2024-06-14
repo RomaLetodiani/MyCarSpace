@@ -5,7 +5,10 @@ import { Request, Response, NextFunction } from "express"
 
 export function validateDTO(dtoClass: any) {
   return async (req: Request, res: Response, next: NextFunction) => {
-    const dtoInstance = plainToInstance(dtoClass, req.body)
+    const dtoInstance = plainToInstance(
+      dtoClass,
+      req.params.id ? { ...req.body, id: req.params.id } : req.body,
+    )
     const errors = await validate(dtoInstance)
 
     if (errors.length > 0) {
