@@ -20,6 +20,9 @@ router.put("/:id", authenticateUser, authenticateAdmin, CategoryController.updat
 // Archive specific categories by their IDs (authentication and admin rights required)
 router.patch("/", authenticateUser, authenticateAdmin, CategoryController.archiveCategories)
 
+// Restore specific categories by their IDs (authentication and admin rights required)
+router.patch("/", authenticateUser, authenticateAdmin, CategoryController.restoreCategories)
+
 // Delete specific categories by their IDs (authentication and admin rights required)
 router.delete("/", authenticateUser, authenticateAdmin, CategoryController.deleteCategories)
 
