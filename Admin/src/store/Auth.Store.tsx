@@ -41,6 +41,7 @@ const AuthStore = create<IAuthStore>((set) => ({
     set({ accessToken, refreshToken, isAuthenticated: true, user: decodedAccessToken })
   },
   clearTokens: () => {
+    localStorage.removeItem('accessToken')
     localStorage.removeItem('refreshToken')
     set({ accessToken: null, refreshToken: null, isAuthenticated: false })
   },

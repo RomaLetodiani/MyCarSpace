@@ -28,7 +28,7 @@ const Login = () => {
       usernameInput.hasError ||
       passwordInput.hasError
     ) {
-      toast.error('Invalid username or password')
+      toast.error('არასწორი ინფორმაცია')
       return
     }
 
@@ -36,7 +36,7 @@ const Login = () => {
       .login({ username: usernameInput.value, password: passwordInput.value })
       .then(({ data }) => {
         setTokens(data)
-        toast.success('Login successful')
+        toast.success('წარმატებით შეხვედით სისტემაში')
         navigate('/')
       })
   }
