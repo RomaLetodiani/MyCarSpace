@@ -7,7 +7,7 @@ type LogoProps = {
 
 const Logo = ({ maxWidth = 'w-full' }: LogoProps) => {
   return (
-    <Link to="/">
+    <Link to="/products">
       <div className={maxWidth}>
         <img className="w-full h-full" src={logo} alt="My Car Space Logo" />
       </div>

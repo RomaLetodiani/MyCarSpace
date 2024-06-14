@@ -42,7 +42,6 @@ const AuthStore = create<IAuthStore>((set) => ({
     let decodedAccessToken
     try {
       decodedAccessToken = jwtDecode(accessToken) as IUser
-      console.log('🚀 ~ AuthStore ~ decodedAccessToken:', decodedAccessToken)
     } catch (error) {
       toast.error('Invalid access token')
       return set({ accessToken: null, refreshToken: null, isAuthenticated: false })
