@@ -7,6 +7,7 @@ import {
   IsString,
   Min,
 } from "class-validator"
+import { idDTO } from "./Shared.dto"
 
 export class productCreateDTO {
   @IsString()
@@ -39,7 +40,7 @@ export class productCreateDTO {
   category!: string
 }
 
-export class productUpdateDTO {
+export class productUpdateDTO extends idDTO {
   @IsString()
   @IsOptional()
   title!: string

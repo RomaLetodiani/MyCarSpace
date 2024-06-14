@@ -3,8 +3,8 @@ import { authenticateUser } from "../Middlewares/Auth.Middleware"
 import ProductController from "../Controllers/Product.Controller"
 import { authenticateAdmin } from "../Middlewares/Admin.middleware"
 import { validateDTO } from "../Middlewares/Validate.middlware"
-import { idsDTO } from "../DTO/Shared.dto"
-import { productCreateDTO } from "../DTO/Product.dto"
+import { idDTO, idsDTO } from "../DTO/Shared.dto"
+import { productCreateDTO, productUpdateDTO } from "../DTO/Product.dto"
 
 const router = express.Router()
 
@@ -12,7 +12,7 @@ const router = express.Router()
 router.get("/", ProductController.getProducts)
 
 // Get a specific product by its ID
-router.get("/:id", ProductController.getProduct)
+router.get("/:id", validateDTO(idDTO), ProductController.getProduct)
 
 // Create a new product (authentication and admin rights required)
 router.post(
@@ -24,7 +24,13 @@ router.post(
 )
 
 // Update a specific product by its ID (authentication and admin rights required)
-router.put("/:id", authenticateUser, authenticateAdmin, ProductController.updateProduct)
+router.put(
+  "/:id",
+  validateDTO(productUpdateDTO),
+  authenticateUser,
+  authenticateAdmin,
+  ProductController.updateProduct,
+)
 
 // Archive specific products by their IDs (authentication and admin rights required)
 router.patch(

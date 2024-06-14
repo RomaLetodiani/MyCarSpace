@@ -18,10 +18,11 @@ const productSchema: Schema = new Schema(
     price: { type: Number, required: true },
     salePrice: { type: Number, default: null },
     countInStock: { type: Number, required: true, default: 0 },
-    imageUrl: { type: String, required: true },
+    imageUrl: { type: String, default: "" },
+    isArchived: { type: Boolean, default: false },
     category: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true },
   },
   { versionKey: false, timestamps: true },
 )
 
-export const User = mongoose.model<ProductDocument>("User", productSchema)
+export const Product = mongoose.model<ProductDocument>("Product", productSchema)

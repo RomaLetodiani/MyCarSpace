@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from "class-validator"
+import { IsMongoId, IsNotEmpty, IsString } from "class-validator"
 
 export class categoryCreateDTO {
   @IsString()
@@ -6,4 +6,9 @@ export class categoryCreateDTO {
   name!: string
 }
 
-export class categoryUpdateDTO extends categoryCreateDTO {}
+export class categoryUpdateDTO extends categoryCreateDTO {
+  @IsMongoId()
+  @IsString()
+  @IsNotEmpty()
+  id!: string
+}
