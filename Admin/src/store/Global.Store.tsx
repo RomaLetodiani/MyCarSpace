@@ -3,8 +3,12 @@ import { create } from 'zustand'
 interface IGlobalStore {
   products: IProduct[]
   setProducts: (products: IProduct[]) => void
+  loadingProducts: boolean
+  setLoadingProducts: (loading: boolean) => void
   categories: ICategory[]
   setCategories: (categories: ICategory[]) => void
+  loadingCategories: boolean
+  setLoadingCategories: (loading: boolean) => void
 }
 
 export interface IProduct {
@@ -32,8 +36,12 @@ export interface ICategory {
 const GlobalStore = create<IGlobalStore>((set) => ({
   products: [],
   setProducts: (products) => set({ products }),
+  loadingProducts: false,
+  setLoadingProducts: (loading) => set({ loadingProducts: loading }),
   categories: [],
   setCategories: (categories) => set({ categories }),
+  loadingCategories: false,
+  setLoadingCategories: (loading) => set({ loadingCategories: loading }),
 }))
 
 export default GlobalStore
