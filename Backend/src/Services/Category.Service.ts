@@ -19,14 +19,13 @@ class CategoryServices {
 
   findOneByName = async ({ name }: { name: string }) => {
     const category = await Category.findOne({ name })
-    if (!category) throw categoryNotFoundError
     return category
   }
 
   create = async (categoryData: categoryCreateDTO) => {
     const categoryExist = await this.findOneByName({ name: categoryData.name })
 
-    if (categoryExist) throw new CustomError("Category already exists", 400)
+    if (categoryExist) throw new CustomError("Category with that name already exists", 400)
 
     const category = new Category(categoryData)
 
@@ -35,7 +34,10 @@ class CategoryServices {
   }
 
   update = async ({ id, categoryData }: { id: string; categoryData: categoryUpdateDTO }) => {
-    const category = await Category.findOneAndUpdate({ _id: id }, categoryData, { new: true })
+    let category = await this.findOneByName({ name: categoryData.name })
+    if (category) throw new CustomError("Category with that name already exists", 400)
+
+    category = await Category.findOneAndUpdate({ _id: id }, categoryData, { new: true })
     if (!category) throw categoryNotFoundError
     return category
   }

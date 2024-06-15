@@ -20,6 +20,7 @@ class ProductServices {
 
     if (category) {
       const categoryFromDb = await this.categoryServices.findOneByName({ name: category })
+      if (!categoryFromDb) return []
       categoryId = categoryFromDb._id
     }
 
