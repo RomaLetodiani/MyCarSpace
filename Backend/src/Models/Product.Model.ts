@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose"
+import { CustomError } from "../Error/CustomError"
 
 export interface ProductDocument extends Document {
   title: string
@@ -24,5 +25,14 @@ const productSchema: Schema = new Schema(
   },
   { versionKey: false, timestamps: true },
 )
+
+productSchema.pre("save", async function (next) {
+  const categoryId = this.get("category")
+  const category = await mongoose.model("Category").findById(categoryId)
+  if (!category) {
+    throw new CustomError("Category does not exist", 400)
+  }
+  next()
+})
 
 export const Product = mongoose.model<ProductDocument>("Product", productSchema)
