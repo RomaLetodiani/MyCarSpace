@@ -9,7 +9,7 @@ import HandlerHeader from '../../components/HandlerHeader'
 import Category from './Category'
 
 const Categories = () => {
-  const { categories, setCategories } = GlobalStore()
+  const { categories, setCategories, loadingCategories } = GlobalStore()
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([])
   const [addMode, setAddMode] = useState(false)
   const addInput = useInput((value) => !!value)
@@ -123,12 +123,16 @@ const Categories = () => {
     <div>
       <HandlerHeader handleRows={handleRows} turnAddMode={() => setAddMode(true)} />
       <div className="flex flex-col gap-2">
-        {!categories.length && !addMode && (
+        {!categories.length && !loadingCategories && !addMode && (
           <div className="p-5 mt-5 text-center rounded-lg bg-secondary/20 text-primary shadow-2xl">
             <p>გთხოვთ დაამატოთ კატეგორია</p>
           </div>
         )}
-
+        {loadingCategories && (
+          <div className="p-5 mt-5 text-center rounded-lg bg-secondary/20 text-primary shadow-2xl">
+            <p>იტვირთება კატეგორიები...</p>
+          </div>
+        )}
         {addMode && (
           <form
             onSubmit={handleAdd}
@@ -145,8 +149,7 @@ const Categories = () => {
             </div>
           </form>
         )}
-
-        {categories.length > 0 && (
+        {!loadingCategories && categories.length > 0 && (
           <div className="flex flex-col gap-2 mt-5">
             {categories.map((category) => (
               <Category

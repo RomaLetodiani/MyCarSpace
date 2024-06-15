@@ -26,9 +26,10 @@ const Category = ({ category, handleRowSelection, rowSelection }: categoryProps)
       onClick={handleSelect}
       key={category._id}
       className={twMerge(
-        'transition-all duration-300 ease-in-out bg-white border-white',
-        'p-2 cursor-pointer text-primary shadow-inner border-b-2 rounded-lg w-full',
+        'transition-all duration-300 ease-in-out bg-white',
+        'p-2 cursor-pointer text-primary shadow-inner border rounded-lg w-full',
         'flex items-center justify-between gap-2',
+        (category.isArchived || isSelected) && 'border-b-4 border-r-4',
         category.isArchived && 'bg-sky-50 border-sky-200',
         isSelected && 'border-primary',
       )}
@@ -37,7 +38,7 @@ const Category = ({ category, handleRowSelection, rowSelection }: categoryProps)
       <div className="flex items-center gap-1">
         {category.isArchived && <span className="text-xs text-sky-500">დაარქივებულია</span>}
         <CheckBox clickable={false} checked={isSelected} id={category._id} />
-      </div>{' '}
+      </div>
     </div>
   )
 }
