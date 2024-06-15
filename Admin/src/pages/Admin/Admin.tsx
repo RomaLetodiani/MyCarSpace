@@ -13,19 +13,30 @@ import GlobalStore from '../../store/Global.Store'
 const Admin = () => {
   const { clearTokens } = AuthStore()
   const { setCategories, setProducts } = GlobalStore()
+  const { setLoadingCategories, setLoadingProducts } = GlobalStore()
   const [isSideBarOpen, setIsSideBarOpen] = useState(false)
   const isNotMobile = useMediaQuery('(min-width: 768px)')
 
   useEffect(() => {
-    productService.allProducts({}).then(({ data }) => {
-      setProducts(data)
-    })
+    setLoadingCategories(true)
+    setLoadingProducts(true)
+    productService
+      .allProducts({})
+      .then(({ data }) => {
+        setProducts(data)
+      })
+      .finally(() => {
+        setLoadingProducts(false)
+      })
     categoryService
       .allCategories({
         isArchived: undefined,
       })
       .then(({ data }) => {
         setCategories(data)
+      })
+      .finally(() => {
+        setLoadingCategories(false)
       })
   }, [])
 

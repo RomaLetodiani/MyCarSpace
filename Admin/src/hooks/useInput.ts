@@ -56,7 +56,7 @@ export const useInput = (
   }
 
   useEffect(() => {
-    if (value) {
+    if (value || initialValue) {
       setFocus(true)
       setTouched(true)
     }
