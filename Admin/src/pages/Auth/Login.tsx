@@ -11,8 +11,8 @@ import 'react-toastify/dist/ReactToastify.css'
 const Login = () => {
   const { setTokens, isAuthenticated } = AuthStore()
   const navigate = useNavigate()
-  const usernameInput = useInput((username: string) => username.length > 5)
-  const passwordInput = useInput((password: string) => password.length > 5)
+  const usernameInput = useInput((username) => typeof username === 'string' && username.length > 5)
+  const passwordInput = useInput((password) => typeof password === 'string' && password.length > 5)
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -33,7 +33,7 @@ const Login = () => {
     }
 
     authService
-      .login({ username: usernameInput.value, password: passwordInput.value })
+      .login({ username: usernameInput.value as string, password: passwordInput.value as string })
       .then(({ data }) => {
         setTokens(data)
         toast.success('წარმატებით შეხვედით სისტემაში')

@@ -6,6 +6,7 @@ export default {
       colors: {
         primary: '#042890',
         secondary: '#0A6FA0',
+        danger: '#FF0000',
         purple: '#84A3FF',
       },
 

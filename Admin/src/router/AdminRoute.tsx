@@ -3,7 +3,7 @@ import AuthStore from '../store/Auth.Store'
 
 const AdminRoute = () => {
   const { user, isAuthenticated } = AuthStore()
-  const isAdmin = isAuthenticated && user.role === 'admin'
+  const isAdmin = user && isAuthenticated && user.role === 'admin'
   return isAdmin ? <Outlet /> : <Navigate to="/login" replace />
 }
 
