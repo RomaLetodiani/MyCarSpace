@@ -9,6 +9,7 @@ interface inputI extends InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string
   hasError?: boolean
   focus?: boolean
+  clear?: () => void
 }
 
 const Input = ({
@@ -19,6 +20,7 @@ const Input = ({
   errorMessage,
   hasError,
   focus,
+  clear,
   ...rest
 }: inputI) => {
   return (
