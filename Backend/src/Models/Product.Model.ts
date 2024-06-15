@@ -7,7 +7,7 @@ export interface ProductDocument extends Document {
   price: number
   salePrice: number | null
   countInStock: number
-  imageUrl: string
+  imageUrls: string[]
   isArchived: boolean
   category: mongoose.Types.ObjectId
 }
@@ -19,7 +19,7 @@ const productSchema: Schema = new Schema(
     price: { type: Number, required: true },
     salePrice: { type: Number, default: null },
     countInStock: { type: Number, required: true, default: 0 },
-    imageUrl: { type: String, default: "" },
+    imageUrls: { type: [String], default: [] },
     isArchived: { type: Boolean, default: false },
     category: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true },
   },

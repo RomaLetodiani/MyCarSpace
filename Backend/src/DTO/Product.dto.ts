@@ -1,4 +1,5 @@
 import {
+  IsArray,
   IsBase64,
   IsBoolean,
   IsMongoId,
@@ -66,9 +67,10 @@ export class productUpdateDTO extends idDTO {
   @IsOptional()
   countInStock!: number
 
-  @IsBase64()
+  @IsArray()
+  @IsBase64({}, { each: true })
   @IsOptional()
-  imageUrl!: string
+  imageUrls!: string[]
 
   @IsMongoId()
   @IsOptional()
