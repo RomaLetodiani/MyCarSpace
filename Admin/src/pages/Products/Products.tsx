@@ -8,31 +8,34 @@ import HandlerHeader from '../../components/HandlerHeader'
 import CheckBox from '../../components/UI/CheckBox'
 import Input from '../../components/UI/Input'
 import Selector from '../../components/UI/Selector'
+import ImageToBase64Converter from '../../components/ImagesToBase64Converter'
+import Product from './Product'
 
 const Products = () => {
-  const { products, categories, setProducts } = GlobalStore()
+  const { products, categories, setProducts, loadingProducts } = GlobalStore()
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([])
   const [addMode, setAddMode] = useState(false)
   const [onSale, setOnSale] = useState(true)
-  const titleInput = useInput((value) => !!value)
-  const descriptionInput = useInput((value) => !!value)
+  const titleInput = useInput(() => true)
+  const descriptionInput = useInput(() => true)
   const priceInput = useInput((value) => +value > 0, 1)
   const salePriceInput = useInput((value) => +value > 0, 1)
   const countInStockInput = useInput((value) => +value > 0, 1)
   const [selectedCategory, setSelectedCategory] = useState('')
+  const [images, setImages] = useState<string[]>([])
 
   const handleArchive = async (ids: string[]) => {
     await productService.archiveProducts(ids).then(() => {
       ids.forEach((id) => {
         const updatedProducts = products.map((product) => {
           if (product._id === id) {
-            return { ...product, archived: true }
+            return { ...product, isArchived: true }
           }
           return product
         })
         setProducts(updatedProducts)
       })
-      toast.success('კატეგორია წარმატებით დაარქივდა')
+      toast.success('პროდუქტი წარმატებით დაარქივდა')
     })
   }
   const handleRestore = async (ids: string[]) => {
@@ -40,13 +43,13 @@ const Products = () => {
       ids.forEach((id) => {
         const updatedProducts = products.map((product) => {
           if (product._id === id) {
-            return { ...product, archived: false }
+            return { ...product, isArchived: false }
           }
           return product
         })
         setProducts(updatedProducts)
       })
-      toast.success('კატეგორია წარმატებით აღდგა')
+      toast.success('პროდუქტი წარმატებით აღდგა')
     })
   }
   const handleDelete = async (ids: string[]) => {
@@ -54,7 +57,7 @@ const Products = () => {
       const updatedProducts = products.filter((product) => !ids.includes(product._id))
       setProducts(updatedProducts)
     })
-    toast.success('კატეგორია წარმატებით წაიშალა')
+    toast.success('პროდუქტი წარმატებით წაიშალა')
   }
   const handleRowSelection = (id: string) => {
     if (selectedRowKeys.includes(id)) {
@@ -65,7 +68,7 @@ const Products = () => {
   }
   const handleRows = async (action: 'delete' | 'archive' | 'restore') => {
     if (!selectedRowKeys.length) {
-      toast.error('გთხოვთ მონიშნოთ მინიმუმ ერთი კატეგორია')
+      toast.error('გთხოვთ მონიშნოთ მინიმუმ ერთი პროდუქტი')
       return
     }
 
@@ -110,12 +113,12 @@ const Products = () => {
         price: priceInput.value as number,
         salePrice: salePriceInput.value as number,
         countInStock: countInStockInput.value as number,
-        category: '60d7d3d3d1f6f20015b2f2a0',
+        category: selectedCategory,
+        imageUrls: images,
       })
       .then(({ data }) => {
         setProducts([...products, data])
-        setAddMode(false)
-        titleInput.clear()
+        handleCancel()
         toast.success('პროდუქტი შექმნილია')
       })
       .catch(() => {
@@ -130,12 +133,13 @@ const Products = () => {
     salePriceInput.clear()
     countInStockInput.clear()
     setSelectedCategory('')
+    setImages([])
   }
   return (
     <div>
       <HandlerHeader handleRows={handleRows} turnAddMode={() => setAddMode(true)} />
       <div>
-        {!products.length && !addMode && (
+        {!products.length && !addMode && !loadingProducts && (
           <div className="p-5 mt-5 text-center rounded-lg bg-secondary/20 text-primary shadow-2xl">
             გთხოვთ დაამატოთ პროდუქტი
           </div>
@@ -161,20 +165,24 @@ const Products = () => {
                   label={onSale ? 'ფასი ფასდაკლებით' : 'ჩართეთ ფასდაკლება'}
                 />
               </div>
-              {categories.length && (
-                <Selector
-                  options={categories.map((category) => ({
-                    value: category._id,
-                    title: category.name,
-                    disabled: category.isArchived,
-                  }))}
-                  name="category"
-                  label="კატეგორია"
-                  selected={selectedCategory}
-                  setSelected={(selected) => setSelectedCategory(selected)}
-                  defaultText="აირჩიეთ კატეგორია"
-                />
-              )}
+              <Selector
+                options={categories?.map((category) => ({
+                  value: category._id,
+                  title: category.name,
+                  disabled: category.isArchived,
+                }))}
+                disabled={!categories.length}
+                name="category"
+                label="კატეგორია"
+                selected={selectedCategory}
+                setSelected={(selected) => setSelectedCategory(selected)}
+                defaultText={categories.length ? 'აირჩიეთ კატეგორია' : 'შეამოწმეთ კატეგორიების სია'}
+              />
+              <ImageToBase64Converter
+                id="addProductImages"
+                initialImages={images}
+                handleChange={(images) => setImages(images)}
+              />
             </div>
             <div className="flex gap-3">
               <Button type="button" onClick={handleCancel} btnType="secondary" className="px-5">
@@ -186,18 +194,20 @@ const Products = () => {
             </div>
           </form>
         )}
-
-        {products.length > 0 && (
-          <div className="flex flex-col gap-2">
+        {loadingProducts && (
+          <div className="p-5 mt-5 text-center rounded-lg bg-secondary/20 text-primary shadow-2xl">
+            პროდუქტები იტვირთება
+          </div>
+        )}
+        {products.length > 0 && !loadingProducts && (
+          <div className="flex flex-col gap-2 mt-5">
             {products.map((product) => (
-              <div
+              <Product
                 key={product._id}
-                className="p-1 shadow-sm w-full flex items-center justify-between"
-                onClick={() => handleRowSelection(product._id)}
-              >
-                <p>{product.title}</p>
-                <CheckBox checked={selectedRowKeys.includes(product._id)} id={product._id} />
-              </div>
+                handleRowSelection={handleRowSelection}
+                product={product}
+                rowSelection={selectedRowKeys}
+              />
             ))}
           </div>
         )}
