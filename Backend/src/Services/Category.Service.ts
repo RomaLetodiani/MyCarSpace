@@ -7,7 +7,7 @@ const categoryNotFoundError = new CustomError("Category not found", 404)
 
 class CategoryServices {
   findAll = async (criteria: any) => {
-    const categories = await Category.find(criteria).sort({ createdAt: -1 })
+    const categories = await Category.find(criteria).sort({ isArchived: 1, createdAt: -1 })
     return categories
   }
 

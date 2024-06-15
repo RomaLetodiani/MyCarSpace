@@ -148,18 +148,14 @@ const Categories = () => {
 
         {categories.length > 0 && (
           <div className="flex flex-col gap-2 mt-5">
-            {categories
-              .sort((a, b) => {
-                return a.isArchived === b.isArchived ? 0 : a.isArchived ? 1 : -1
-              })
-              .map((category) => (
-                <Category
-                  key={category._id}
-                  handleRowSelection={handleRowSelection}
-                  category={category}
-                  rowSelection={selectedRowKeys}
-                />
-              ))}
+            {categories.map((category) => (
+              <Category
+                key={category._id}
+                handleRowSelection={handleRowSelection}
+                category={category}
+                rowSelection={selectedRowKeys}
+              />
+            ))}
           </div>
         )}
       </div>

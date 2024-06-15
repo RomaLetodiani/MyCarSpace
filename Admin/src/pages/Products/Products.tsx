@@ -7,9 +7,10 @@ import productService from '../../services/Product.Service'
 import HandlerHeader from '../../components/HandlerHeader'
 import CheckBox from '../../components/UI/CheckBox'
 import Input from '../../components/UI/Input'
+import Selector from '../../components/UI/Selector'
 
 const Products = () => {
-  const { products, setProducts } = GlobalStore()
+  const { products, categories, setProducts } = GlobalStore()
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([])
   const [addMode, setAddMode] = useState(false)
   const [onSale, setOnSale] = useState(true)
@@ -18,7 +19,7 @@ const Products = () => {
   const priceInput = useInput((value) => +value > 0, 1)
   const salePriceInput = useInput((value) => +value > 0, 1)
   const countInStockInput = useInput((value) => +value > 0, 1)
-  // const [selectedCategory, setSelectedCategory] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('')
 
   const handleArchive = async (ids: string[]) => {
     await productService.archiveProducts(ids).then(() => {
@@ -93,6 +94,7 @@ const Products = () => {
     salePriceInput.hasError,
     !countInStockInput.value,
     countInStockInput.hasError,
+    !selectedCategory,
   ]
   const handleAdd = (e: any) => {
     e.preventDefault()
@@ -127,6 +129,7 @@ const Products = () => {
     priceInput.clear()
     salePriceInput.clear()
     countInStockInput.clear()
+    setSelectedCategory('')
   }
   return (
     <div>
@@ -158,6 +161,20 @@ const Products = () => {
                   label={onSale ? 'ფასი ფასდაკლებით' : 'ჩართეთ ფასდაკლება'}
                 />
               </div>
+              {categories.length && (
+                <Selector
+                  options={categories.map((category) => ({
+                    value: category._id,
+                    title: category.name,
+                    disabled: category.isArchived,
+                  }))}
+                  name="category"
+                  label="კატეგორია"
+                  selected={selectedCategory}
+                  setSelected={(selected) => setSelectedCategory(selected)}
+                  defaultText="აირჩიეთ კატეგორია"
+                />
+              )}
             </div>
             <div className="flex gap-3">
               <Button type="button" onClick={handleCancel} btnType="secondary" className="px-5">
