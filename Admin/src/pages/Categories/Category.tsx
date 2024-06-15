@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import CheckBox from '../../components/UI/CheckBox'
 import { ICategory } from '../../store/Global.Store'
+import { twMerge } from 'tailwind-merge'
 
 type categoryProps = {
   category: ICategory
@@ -24,10 +25,19 @@ const Category = ({ category, handleRowSelection, rowSelection }: categoryProps)
     <div
       onClick={handleSelect}
       key={category._id}
-      className="p-2 cursor-pointer shadow-inner border-b-2 rounded-lg w-full flex items-center justify-between"
+      className={twMerge(
+        'transition-all duration-300 ease-in-out bg-white border-white',
+        'p-2 cursor-pointer text-primary shadow-inner border-b-2 rounded-lg w-full',
+        'flex items-center justify-between gap-2',
+        category.isArchived && 'bg-sky-50 border-sky-200',
+        isSelected && 'border-primary',
+      )}
     >
       <p>{category.name}</p>
-      <CheckBox clickable={false} checked={isSelected} id={category._id} />
+      <div className="flex items-center gap-1">
+        {category.isArchived && <span className="text-xs text-sky-500">დაარქივებულია</span>}
+        <CheckBox clickable={false} checked={isSelected} id={category._id} />
+      </div>{' '}
     </div>
   )
 }

@@ -21,7 +21,7 @@ const Categories = () => {
         ids.forEach((id) => {
           const updatedCategories = categories.map((category) => {
             if (category._id === id) {
-              return { ...category, archived: true }
+              return { ...category, isArchived: true }
             }
             return category
           })
@@ -41,7 +41,7 @@ const Categories = () => {
         ids.forEach((id) => {
           const updatedCategories = categories.map((category) => {
             if (category._id === id) {
-              return { ...category, archived: false }
+              return { ...category, isArchived: false }
             }
             return category
           })
@@ -122,7 +122,7 @@ const Categories = () => {
   return (
     <div>
       <HandlerHeader handleRows={handleRows} turnAddMode={() => setAddMode(true)} />
-      <div className="flex flex-col gap-2 py-2 mt-5">
+      <div className="flex flex-col gap-2">
         {!categories.length && !addMode && (
           <div className="p-5 mt-5 text-center rounded-lg bg-secondary/20 text-primary shadow-2xl">
             <p>გთხოვთ დაამატოთ კატეგორია</p>
@@ -147,15 +147,19 @@ const Categories = () => {
         )}
 
         {categories.length > 0 && (
-          <div className="flex flex-col gap-2">
-            {categories.map((category) => (
-              <Category
-                key={category._id}
-                handleRowSelection={handleRowSelection}
-                category={category}
-                rowSelection={selectedRowKeys}
-              />
-            ))}
+          <div className="flex flex-col gap-2 mt-5">
+            {categories
+              .sort((a, b) => {
+                return a.isArchived === b.isArchived ? 0 : a.isArchived ? 1 : -1
+              })
+              .map((category) => (
+                <Category
+                  key={category._id}
+                  handleRowSelection={handleRowSelection}
+                  category={category}
+                  rowSelection={selectedRowKeys}
+                />
+              ))}
           </div>
         )}
       </div>

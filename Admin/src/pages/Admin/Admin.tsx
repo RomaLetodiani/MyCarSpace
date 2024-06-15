@@ -20,9 +20,13 @@ const Admin = () => {
     productService.allProducts({}).then(({ data }) => {
       setProducts(data)
     })
-    categoryService.allCategories({}).then(({ data }) => {
-      setCategories(data)
-    })
+    categoryService
+      .allCategories({
+        isArchived: undefined,
+      })
+      .then(({ data }) => {
+        setCategories(data)
+      })
   }, [])
 
   const handleToggle = () => {

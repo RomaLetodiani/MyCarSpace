@@ -24,6 +24,9 @@ export interface IProduct {
 export interface ICategory {
   _id: string
   name: string
+  isArchived: boolean
+  createdAt: string
+  updatedAt: string
 }
 
 const GlobalStore = create<IGlobalStore>((set) => ({
