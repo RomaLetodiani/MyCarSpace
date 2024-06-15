@@ -27,12 +27,13 @@ const app = express()
 
 app.use(cors())
 
-app.use(bodyParser.json())
+app.use(bodyParser.json({ limit: "50mb" }))
 app.use(bodyParser.urlencoded({ extended: true }))
 
 // Security: Enable additional helmet protections (consider tailoring these based on your needs)
 app.use(helmet.contentSecurityPolicy()) // Content Security Policy for script and resource restrictions
 app.use(helmet.referrerPolicy()) // Prevent referrer leakage
+
 // Define a route
 app.get("/", (req, res) => {
   res.send("Hello, world!")

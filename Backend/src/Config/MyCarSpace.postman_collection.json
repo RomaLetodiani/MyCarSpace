@@ -10,27 +10,6 @@
 			"name": "Auth",
 			"item": [
 				{
-					"name": "Logout",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5000/api/auth/logout",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"auth",
-								"logout"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Login",
 					"request": {
 						"method": "POST",
@@ -82,6 +61,27 @@
 					"response": []
 				},
 				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/auth/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "RefreshTokens",
 					"request": {
 						"method": "POST",
@@ -114,6 +114,53 @@
 			]
 		},
 		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Current User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/user/current",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"current"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Current User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/user/current",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"current"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Product",
 			"item": [
 				{
@@ -131,6 +178,38 @@
 							"path": [
 								"api",
 								"product"
+							],
+							"query": [
+								{
+									"key": "isArchived",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "test",
+									"disabled": true
+								},
+								{
+									"key": "minPrice",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "maxPrice",
+									"value": "99",
+									"disabled": true
+								},
+								{
+									"key": "category",
+									"value": "test",
+									"disabled": true
+								},
+								{
+									"key": "onlySales",
+									"value": "true",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -142,7 +221,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/api/product/id",
+							"raw": "http://localhost:5000/api/product/666cb565bd368e037646dcc9",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -151,7 +230,7 @@
 							"path": [
 								"api",
 								"product",
-								"id"
+								"666cb565bd368e037646dcc9"
 							]
 						}
 					},
@@ -164,7 +243,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"product\":{\r\n        \r\n    }\r\n}",
+							"raw": "{\r\n    \"title\": \"\",\r\n    \"description\":\"\",\r\n    \"price\": 100,\r\n    \"salePrice\": null,\r\n    \"countInStock\": 1,\r\n    \"imageUrls\": [\"\"],\r\n    \"category\":\"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -191,8 +270,17 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:5000/api/product/id",
+							"raw": "http://localhost:5000/api/product/666cb78fe2ea58d71aa0710f",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -201,14 +289,44 @@
 							"path": [
 								"api",
 								"product",
-								"id"
+								"666cb78fe2ea58d71aa0710f"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Archieve Product",
+					"name": "Archieve Products",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ids\": [\"\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/product/archive",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"product",
+								"archive"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Restore Products",
 					"request": {
 						"method": "PATCH",
 						"header": [],
@@ -222,7 +340,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/api/product",
+							"raw": "http://localhost:5000/api/product/restore",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -230,7 +348,8 @@
 							"port": "5000",
 							"path": [
 								"api",
-								"product"
+								"product",
+								"restore"
 							]
 						}
 					},
@@ -243,7 +362,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"ids\": []\r\n}",
+							"raw": "{\r\n    \"ids\": [\"\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -260,6 +379,207 @@
 							"path": [
 								"api",
 								"product"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "All Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/category",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"category"
+							],
+							"query": [
+								{
+									"key": "isArchived",
+									"value": "true",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Singile Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/category/666cb20862d69df6c2e0101f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"category",
+								"666cb20862d69df6c2e0101f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/category",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Category",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/category/666ccfd8d120ebf62bfcdbaa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"category",
+								"666ccfd8d120ebf62bfcdbaa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Archieve Category",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ids\": [\"\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/category/archive",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"category",
+								"archive"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Restore Category",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ids\": [\"\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/category/restore",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"category",
+								"restore"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ids\": [\"\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/category",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"category"
 							]
 						}
 					},

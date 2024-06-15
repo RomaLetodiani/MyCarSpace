@@ -70,7 +70,10 @@ class ProductServices {
   }
 
   create = async (productData: productCreateDTO) => {
-    const product = new Product(productData)
+    const product = new Product({
+      ...productData,
+      imageUrls: productData.imageUrls.map((b64) => "data:image/png;base64," + b64),
+    })
     await product.save()
     return product
   }

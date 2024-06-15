@@ -25,7 +25,7 @@ class ProductController {
   createProduct = asyncHandler(async (req: Request, res: Response) => {
     const productData = req.body
 
-    const result = await this.ProductServices.create(productData)
+    const result = await (await this.ProductServices.create(productData)).populate("category")
     res.status(201).json(result)
   })
 

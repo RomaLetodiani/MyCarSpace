@@ -34,9 +34,9 @@ export class productCreateDTO {
   @Min(0)
   countInStock!: number
 
-  @IsBase64()
+  @IsBase64({}, { each: true })
   @IsOptional()
-  imageUrl!: string
+  imageUrls!: string[]
 
   @IsMongoId()
   @IsNotEmpty()
