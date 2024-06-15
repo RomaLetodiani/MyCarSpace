@@ -1,14 +1,22 @@
 {
-  "name": "node-express-typescript-boilerplate",
+  "name": "my-car-space-backend-api",
   "version": "1.0.0",
-  "description": "Node Express TypeScript Boilerplate",
+  "description": "My Car Space Backend API",
   "main": "index.js",
   "scripts": {
     "start": "node dist/index.js",
-    "build": "tsc",
+    "build": "rimraf dist && tsc",
+    "ts.check": "tsc --project tsconfig.json",
+    "add-build": "git add dist",
     "dev": "nodemon --exec ts-node src/index.ts",
-    "test": "jest"
+    "test": "jest",
+    "deploy": "vercel"
   },
+  "pre-commit": [
+    "ts.check",
+    "build",
+    "add-build"
+  ],
   "repository": "https://github.com/RomaLetodiani/Node-Express-TypeScript-BoilerPlate",
   "keywords": [
     "Node",
