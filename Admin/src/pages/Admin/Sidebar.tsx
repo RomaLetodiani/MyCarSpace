@@ -18,7 +18,7 @@ const Sidebar = ({
   return (
     <>
       {isMobile && (
-        <div className="absolute w-full flex justify-between bg-slate-100 items-center p-5 shadow-lg">
+        <div className="relative w-full flex justify-between bg-slate-100 items-center p-5 shadow-lg">
           <AdminAvatar size="w-12 h-12" />
           <Burger open={isOpen} toggle={toggle} />
         </div>

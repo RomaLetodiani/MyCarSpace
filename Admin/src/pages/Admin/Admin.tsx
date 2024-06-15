@@ -18,6 +18,16 @@ const Admin = () => {
   const isNotMobile = useMediaQuery('(min-width: 768px)')
 
   useEffect(() => {
+    if (!isNotMobile) {
+      if (isSideBarOpen) {
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.body.style.overflow = 'auto'
+      }
+    }
+  }, [isSideBarOpen, isNotMobile])
+
+  useEffect(() => {
     setLoadingCategories(true)
     setLoadingProducts(true)
     productService
@@ -54,7 +64,7 @@ const Admin = () => {
   return (
     <div className="flex flex-col md:flex-row">
       <Sidebar toggle={handleToggle} isOpen={isSideBarOpen} isMobile={!isNotMobile} />
-      <div className="h-screen overflow-auto md:flex-1 pt-[150px] md:pt-5 p-5 bg-slate-100">
+      <div className="h-screen overflow-auto md:flex-1 pt-5 p-5 bg-slate-100">
         <Outlet />
       </div>
       {isNotMobile && <RightSightBar handleLogout={handleLogout} />}
