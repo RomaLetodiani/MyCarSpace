@@ -1,15 +1,14 @@
 import { useRef, useState } from 'react'
-import { useInput } from '../../hooks/useInput'
+import { InputState } from '../../hooks/useInput'
 import useDebounce from '../../hooks/useDebounce'
-import ProductServices from '../../services/Product.Services'
 import useClickOutside from '../../hooks/useClickOutside'
 import useClickInside from '../../hooks/useClickInside'
 import Input from '../UI/Input'
 import Options from './Options'
 import { twMerge } from 'tailwind-merge'
+import productService from '../../services/Product.Service'
 
-const SearchBar = () => {
-  const searchInput = useInput(() => true)
+const SearchBar = ({ searchInput }: { searchInput: InputState }) => {
   const [options, setOptions] = useState([])
   const [loading, setLoading] = useState(false)
   const [visible, setVisible] = useState(false)
@@ -21,7 +20,8 @@ const SearchBar = () => {
       return
     }
     setLoading(true)
-    ProductServices.allProducts({ productName: searchTerm, page: 1, pageSize: 50 })
+    productService
+      .allProducts({ productName: searchTerm, page: 1, pageSize: 20 })
       .then(({ data }) => {
         if (!data.products) {
           setOptions([])
@@ -54,7 +54,7 @@ const SearchBar = () => {
       className={twMerge('transition-all ease-in-out duration-500 md:px-4 flex-1')}
       ref={containerRef}
     >
-      <Input {...searchInput} placeholder="Search for products" />
+      <Input {...searchInput} placeholder="მოიძიეთ სასურველი პროდუქტი" />
       <Options options={options} loading={loading} visible={visible} />
     </div>
   )

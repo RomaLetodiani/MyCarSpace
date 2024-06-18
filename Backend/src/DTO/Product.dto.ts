@@ -79,6 +79,18 @@ export class productUpdateDTO extends idDTO {
 
 export class productParamsDTO {
   @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(10000)
+  page!: number
+
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(10000)
+  pageSize!: number
+
+  @IsOptional()
   @IsString()
   title!: string
 

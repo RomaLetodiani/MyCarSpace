@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 /**
  * Represents the shape of the state object returned by the useInput hook.
  */
-type InputState = {
+export type InputState = {
   /** The current value of the input field. */
   value: string
   /** Indicates whether the input field is currently focused. */

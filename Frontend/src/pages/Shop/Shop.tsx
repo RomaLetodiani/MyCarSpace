@@ -1,5 +1,16 @@
+import SectionWrapper from '../../components/SectionWrapper'
+import Filters from './Filters'
+import Products from './Products'
+
 const Shop = () => {
-  return <div>Shop</div>
+  return (
+    <SectionWrapper>
+      <div className="flex">
+        <Filters />
+        <Products />
+      </div>
+    </SectionWrapper>
+  )
 }
 
 export default Shop
