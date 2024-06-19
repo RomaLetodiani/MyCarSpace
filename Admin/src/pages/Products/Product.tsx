@@ -1,18 +1,41 @@
-import { useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import CheckBox from '../../components/UI/CheckBox'
-import { IProduct } from '../../store/Global.Store'
+import { ICategory, IProduct } from '../../store/Global.Store'
 import Button from '../../components/UI/Button'
 import { twMerge } from 'tailwind-merge'
 import { toast } from 'react-toastify'
 import { sliceText } from '../../utils/sliceText'
+import ImageToBase64Converter from '../../components/ImagesToBase64Converter'
+import Selector from '../../components/UI/Selector'
+import Input from '../../components/UI/Input'
+import { useInput } from '../../hooks/useInput'
+import productService from '../../services/Product.Service'
 
 type ProductProps = {
   product: IProduct
+  products: IProduct[]
+  setProducts: (products: IProduct[]) => void
+  categories: ICategory[]
   handleRowSelection: (id: string) => void
   rowSelection: string[]
 }
 
-const Product = ({ product, handleRowSelection, rowSelection }: ProductProps) => {
+const Product = ({
+  product,
+  products,
+  setProducts,
+  categories,
+  handleRowSelection,
+  rowSelection,
+}: ProductProps) => {
+  const [onSale, setOnSale] = useState(!!product.salePrice)
+  const titleInput = useInput(() => true, product.title)
+  const descriptionInput = useInput(() => true, product.description)
+  const priceInput = useInput((value) => +value > 0, product.price)
+  const salePriceInput = useInput((value) => +value > 0, !product.salePrice ? 1 : product.salePrice)
+  const countInStockInput = useInput((value) => +value > 0, product.countInStock)
+  const [selectedCategory, setSelectedCategory] = useState(product.category._id)
+  const [images, setImages] = useState<string[]>([])
   const [isSelected, setIsSelected] = useState(false)
   const [editMode, setEditMode] = useState(false)
   useEffect(() => {
@@ -28,20 +51,107 @@ const Product = ({ product, handleRowSelection, rowSelection }: ProductProps) =>
     e.stopPropagation()
     setEditMode(true)
   }
-  const cancelEditMode = () => {
-    setEditMode(false)
+  const handleUpdateProduct = (e: FormEvent) => {
+    e.preventDefault()
+    const updatedProduct = {
+      title: titleInput.value,
+      description: descriptionInput.value,
+      price: +priceInput.value,
+      salePrice: onSale ? +salePriceInput.value : undefined,
+      countInStock: +countInStockInput.value,
+      category: selectedCategory,
+      imageUrls: images,
+    }
+    const id = toast.loading('პროდუქტი ახლდება')
+    productService
+      .updateProduct(product._id, updatedProduct)
+      .then(({ data }) => {
+        const updatedProducts = products.map((product) => {
+          if (product._id === data._id) {
+            return data
+          }
+          return product
+        })
+        setProducts(updatedProducts as IProduct[])
+        toast.update(id, {
+          render: 'პროდუქტი განახლებულია',
+          type: 'success',
+          isLoading: false,
+          autoClose: 2000,
+        })
+        handleCancel()
+      })
+      .catch(() => {
+        toast.update(id, {
+          render: 'შეცდომა პროდუქტის განახლებისას',
+          type: 'error',
+          isLoading: false,
+          autoClose: 2000,
+        })
+      })
+
+    handleCancel()
   }
-  const saveChanges = () => {
-    toast.warn('აგიწყობ განახლებებსაც მეორე პროექტს მოვრჩე')
-    cancelEditMode()
+  const handleCancel = () => {
+    setEditMode(false)
+    titleInput.clear()
+    descriptionInput.clear()
+    priceInput.clear()
+    salePriceInput.clear()
+    countInStockInput.clear()
+    setSelectedCategory(product.category._id)
+    setImages([])
   }
   return editMode ? (
-    // TODO: Implement Edit Mode
-    <div>
-      editia shechema gasaketebeli
-      <p></p> <Button onClick={cancelEditMode}>გაუქმება</Button>
-      <Button onClick={saveChanges}>განახლება</Button>
-    </div>
+    // TODO: Refactor this to a separate component
+    <form
+      onSubmit={handleUpdateProduct}
+      className="p-5 mt-5 flex flex-col gap-3 justify-end items-end rounded-lg bg-purple/20 text-primary shadow-2xl"
+    >
+      <div className="p-5 bg-sky-50 w-full flex flex-col gap-2 rounded-lg">
+        <Input {...titleInput} label="პროდუქტის სახელი" />
+        <Input {...descriptionInput} label="პროდუქტის დახასიათება" />
+        <div className="flex gap-5 justify-between">
+          <Input type="number" {...priceInput} label="ფასი" />
+          <Input type="number" {...countInStockInput} label="რაოდენობა" />
+        </div>
+        <div className="flex gap-5 items-center">
+          <CheckBox id="onSale" checked={onSale} onChange={() => setOnSale(!onSale)} />
+          <Input
+            type="number"
+            disabled={!onSale}
+            {...salePriceInput}
+            label={onSale ? 'ფასი ფასდაკლებით' : 'ჩართეთ ფასდაკლება'}
+          />
+        </div>
+        <Selector
+          options={categories?.map((category) => ({
+            value: category._id,
+            title: category.name,
+            disabled: category.isArchived,
+          }))}
+          disabled={!categories.length}
+          name="category"
+          label="კატეგორია"
+          selected={selectedCategory}
+          setSelected={(selected) => setSelectedCategory(selected)}
+          defaultText={categories.length ? 'აირჩიეთ კატეგორია' : 'შეამოწმეთ კატეგორიების სია'}
+        />
+        <ImageToBase64Converter
+          id="addProductImages"
+          initialImages={product.imageUrls || []}
+          handleChange={(images) => setImages(images)}
+        />
+      </div>
+      <div className="flex gap-3">
+        <Button type="button" onClick={handleCancel} btnType="secondary" className="px-5">
+          გაუქმება
+        </Button>
+        <Button type="submit" className="px-5">
+          განახლება
+        </Button>
+      </div>
+    </form>
   ) : (
     <div
       onClick={handleSelect}

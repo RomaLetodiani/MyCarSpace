@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify'
 import Button from '../../components/UI/Button'
 import GlobalStore from '../../store/Global.Store'
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { useInput } from '../../hooks/useInput'
 import productService from '../../services/Product.Service'
 import HandlerHeader from '../../components/HandlerHeader'
@@ -99,19 +99,20 @@ const Products = () => {
     countInStockInput.hasError,
     !selectedCategory,
   ]
-  const handleAdd = (e: any) => {
+  const handleAdd = (e: FormEvent) => {
     e.preventDefault()
     if (errors.some((error) => error)) {
       toast.error('გთხოვთ შეიყვანოთ სწორი ინფორმაცია პროდუქტის შესახებ')
       return
     }
+    const id = toast.loading('პროდუქტი ემატება')
 
     productService
       .createProduct({
         title: titleInput.value as string,
         description: descriptionInput.value as string,
         price: priceInput.value as number,
-        salePrice: salePriceInput.value as number,
+        salePrice: onSale ? (salePriceInput.value as number) : null,
         countInStock: countInStockInput.value as number,
         category: selectedCategory,
         imageUrls: images,
@@ -119,10 +120,20 @@ const Products = () => {
       .then(({ data }) => {
         setProducts([...products, data])
         handleCancel()
-        toast.success('პროდუქტი შექმნილია')
+        toast.update(id, {
+          render: 'პროდუქტი შექმნილია',
+          type: 'success',
+          isLoading: false,
+          autoClose: 2000,
+        })
       })
       .catch(() => {
-        toast.error('შეცდომა პროდუქტის შექმნისას')
+        toast.update(id, {
+          render: 'შეცდომა პროდუქტის დამატებისას',
+          type: 'error',
+          isLoading: false,
+          autoClose: 2000,
+        })
       })
   }
   const handleCancel = () => {
@@ -204,6 +215,9 @@ const Products = () => {
             {products.map((product) => (
               <Product
                 key={product._id}
+                categories={categories}
+                products={products}
+                setProducts={setProducts}
                 handleRowSelection={handleRowSelection}
                 product={product}
                 rowSelection={selectedRowKeys}
