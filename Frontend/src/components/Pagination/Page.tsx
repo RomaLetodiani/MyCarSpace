@@ -1,23 +1,28 @@
 import { twMerge } from 'tailwind-merge'
 
 type PageProps = {
-  page: number
+  page: number | string
   currentPage: number
-  isFirst: boolean
-  isLast: boolean
+  isFirstRange: boolean
+  isLastRange: boolean
+  isInRange: boolean
   onClick: () => void
 }
 
-const Page = ({ page, currentPage, isFirst, isLast, onClick }: PageProps) => {
+const Page = ({ page, currentPage, isFirstRange, isLastRange, isInRange, onClick }: PageProps) => {
   const isActive = page === currentPage
-  const isInRange = page + 1 === currentPage || page - 1 === currentPage
   return (
     <div
-      onClick={onClick}
+      onClick={() => {
+        if (page === currentPage || page === '...') {
+          return
+        }
+        onClick()
+      }}
       className={twMerge(
-        'rounded-full border p-2',
+        'rounded-full border p-2 w-8 h-8 flex justify-center items-center cursor-pointer transition-all duration-200 hover:bg-primary/20 hover:border-secondary',
         isActive && 'bg-primary/20 border-secondary',
-        !isInRange && !(isFirst || isLast) && 'hidden',
+        !isInRange && !(isFirstRange || isLastRange) && 'hidden',
       )}
     >
       {page}
