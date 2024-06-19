@@ -1,72 +1,20 @@
-import { useState } from 'react'
-import Button from '../../components/UI/Button'
+import { FormEvent, useState } from 'react'
 import GlobalStore from '../../store/Global.Store'
 import categoryService from '../../services/Category.Service'
 import { toast } from 'react-toastify'
-import Input from '../../components/UI/Input'
 import { useInput } from '../../hooks/useInput'
 import HandlerHeader from '../../components/HandlerHeader'
-import Category from './Category'
+import handleCategories from './handleCategories'
+import RenderCategories from './RenderCategories'
 
 const Categories = () => {
+  const { handleArchive, handleDelete, handleRestore } = handleCategories()
   const { categories, setCategories, loadingCategories } = GlobalStore()
-  const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([])
   const [addMode, setAddMode] = useState(false)
   const addInput = useInput((value) => !!value)
 
-  const handleArchive = async (ids: string[]) => {
-    await categoryService
-      .archiveCategories(ids)
-      .then(() => {
-        ids.forEach((id) => {
-          const updatedCategories = categories.map((category) => {
-            if (category._id === id) {
-              return { ...category, isArchived: true }
-            }
-            return category
-          })
-          setCategories(updatedCategories)
-        })
-        toast.success('კატეგორია წარმატებით დაარქივდა')
-      })
-      .catch((error) => {
-        toast.error('შეცდომა კატეგორიის დაარქივებისას')
-        throw error
-      })
-  }
-  const handleRestore = async (ids: string[]) => {
-    await categoryService
-      .restoreCategories(ids)
-      .then(() => {
-        ids.forEach((id) => {
-          const updatedCategories = categories.map((category) => {
-            if (category._id === id) {
-              return { ...category, isArchived: false }
-            }
-            return category
-          })
-          setCategories(updatedCategories)
-        })
-        toast.success('კატეგორია წარმატებით აღდგა')
-      })
-      .catch((error) => {
-        toast.error('შეცდომა კატეგორიის აღდგენისას')
-        throw error
-      })
-  }
-  const handleDelete = async (ids: string[]) => {
-    await categoryService
-      .deleteCategories(ids)
-      .then(() => {
-        const updatedCategories = categories.filter((category) => !ids.includes(category._id))
-        setCategories(updatedCategories)
-        toast.success('კატეგორია წარმატებით წაიშალა')
-      })
-      .catch((error) => {
-        toast.error('შეცდომა კატეგორიის წაშლისას')
-        throw error
-      })
-  }
+  // Row Selection
+  const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([])
   const handleRowSelection = (id: string) => {
     if (selectedRowKeys.includes(id)) {
       setSelectedRowKeys(selectedRowKeys.filter((key) => key !== id))
@@ -74,6 +22,8 @@ const Categories = () => {
       setSelectedRowKeys([...selectedRowKeys, id])
     }
   }
+
+  // Handle Rows Actions (Delete, Archive, Restore)
   const handleRows = async (action: 'delete' | 'archive' | 'restore') => {
     if (!selectedRowKeys.length) {
       toast.error('გთხოვთ მონიშნოთ მინიმუმ ერთი კატეგორია')
@@ -95,7 +45,9 @@ const Categories = () => {
       resolve(null)
     })
   }
-  const handleAdd = (e: any) => {
+
+  // Handle Add Category
+  const handleAdd = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!addInput.value || addInput.hasError) {
       toast.error('გთხოვთ შეიყვანოთ კატეგორიის სახელი')
@@ -113,6 +65,8 @@ const Categories = () => {
         toast.error('შეცდომა კატეგორიის შექმნისას')
       })
   }
+
+  // Handle Cancel Add
   const handleCancel = () => {
     setAddMode(false)
     addInput.clear()
@@ -122,44 +76,17 @@ const Categories = () => {
     <div>
       <HandlerHeader handleRows={handleRows} turnAddMode={() => setAddMode(true)} />
       <div className="flex flex-col gap-2">
-        {!categories.length && !loadingCategories && !addMode && (
-          <div className="p-5 mt-5 text-center rounded-lg bg-secondary/20 text-primary shadow-2xl">
-            <p>გთხოვთ დაამატოთ კატეგორია</p>
-          </div>
-        )}
-        {loadingCategories && (
-          <div className="p-5 mt-5 text-center rounded-lg bg-secondary/20 text-primary shadow-2xl">
-            <p>იტვირთება კატეგორიები...</p>
-          </div>
-        )}
-        {addMode && (
-          <form
-            onSubmit={handleAdd}
-            className="p-5 mt-5 flex flex-col gap-3 justify-end items-end rounded-lg bg-purple/20 text-primary shadow-2xl"
-          >
-            <Input {...addInput} label="კატეგორიის სახელი" />
-            <div className="flex gap-3">
-              <Button type="button" onClick={handleCancel} btnType="secondary" className="px-5">
-                გაუქმება
-              </Button>
-              <Button type="submit" className="px-5">
-                შექმნა
-              </Button>
-            </div>
-          </form>
-        )}
-        {!loadingCategories && categories.length > 0 && (
-          <div className="flex flex-col gap-2 mt-5">
-            {categories.map((category) => (
-              <Category
-                key={category._id}
-                handleRowSelection={handleRowSelection}
-                category={category}
-                rowSelection={selectedRowKeys}
-              />
-            ))}
-          </div>
-        )}
+        <RenderCategories
+          addInput={addInput}
+          addMode={addMode}
+          handleAdd={handleAdd}
+          handleCancel={handleCancel}
+          categories={categories}
+          loading={loadingCategories}
+          selectedRowKeys={selectedRowKeys}
+          handleRowSelection={handleRowSelection}
+          categoriesLength={categories.length}
+        />
       </div>
     </div>
   )
