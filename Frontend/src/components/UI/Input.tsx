@@ -9,6 +9,7 @@ interface inputI extends InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string
   hasError?: boolean
   focus?: boolean
+  clear?: () => void
 }
 
 const Input = ({
@@ -19,6 +20,7 @@ const Input = ({
   errorMessage,
   hasError,
   focus,
+  clear,
   ...rest
 }: inputI) => {
   return (
@@ -32,7 +34,7 @@ const Input = ({
               ? 'top-1 text-sm text-primary'
               : 'transform top-1/2 -translate-y-1/2 text-secondary-200'
           }`,
-          hasError && 'text-error',
+          hasError && 'text-danger',
           labelClassName,
         )}
       >
@@ -43,7 +45,7 @@ const Input = ({
         className={twMerge(
           'w-full border outline-none px-3 py-2 rounded-xl',
           label && 'pt-5',
-          `${hasError && 'border-error'}`,
+          `${hasError && 'border-danger'}`,
 
           inputClassName,
         )}

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
  */
 export type InputState = {
   /** The current value of the input field. */
-  value: string
+  value: string | number
   /** Indicates whether the input field is currently focused. */
   focus: boolean
   /** Event handler for input changes. */
@@ -14,6 +14,8 @@ export type InputState = {
   onBlur: () => void
   /** Event handler for input focus. */
   onFocus: () => void
+  /** Clears the input value. */
+  clear: () => void
   /** Indicates whether there is an error in the input value. */
   hasError: boolean
 }
@@ -23,8 +25,11 @@ export type InputState = {
  * @param validate A function to validate the input value.
  * @returns An object containing input state and event handlers.
  */
-export const useInput = (validate: (value: string) => boolean): InputState => {
-  const [value, setValue] = useState<string>('')
+export const useInput = (
+  validate: (value: string | number) => boolean,
+  initialValue: string | number = '',
+): InputState => {
+  const [value, setValue] = useState<string | number>(initialValue)
   const [touched, setTouched] = useState<boolean>(false)
   const [focus, setFocus] = useState<boolean>(false)
 
@@ -32,7 +37,7 @@ export const useInput = (validate: (value: string) => boolean): InputState => {
   const hasError: boolean = !isValid && touched
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value)
+    setValue(typeof value === 'number' ? +e.target.value : e.target.value)
   }
 
   const onBlur = (): void => {
@@ -44,9 +49,18 @@ export const useInput = (validate: (value: string) => boolean): InputState => {
     setFocus(true)
   }
 
+  const clear = (): void => {
+    setTouched(false)
+    setFocus(false)
+    setValue(initialValue)
+  }
+
   useEffect(() => {
-    value && setFocus(true)
-  }, [value])
+    if (value || initialValue) {
+      setFocus(true)
+      setTouched(true)
+    }
+  }, [value, initialValue, clear])
 
   return {
     value,
@@ -54,6 +68,7 @@ export const useInput = (validate: (value: string) => boolean): InputState => {
     onChange,
     onBlur,
     onFocus,
+    clear,
     hasError,
   }
 }

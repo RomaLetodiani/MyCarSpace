@@ -5,9 +5,10 @@ type SelectorProps = SelectHTMLAttributes<HTMLSelectElement> & {
   options: option[]
   label?: string
   selected: string | number
-  // TODO Make this receive string or number
   setSelected: (selected: string | number) => void
   labelClassName?: string
+  wrapperClassName?: string
+  selectorClassName?: string
   defaultText: string
 }
 
@@ -23,6 +24,8 @@ const Selector = ({
   selected,
   setSelected,
   labelClassName,
+  wrapperClassName,
+  selectorClassName,
   defaultText,
   ...rest
 }: SelectorProps) => {
@@ -33,7 +36,7 @@ const Selector = ({
     setSelected(parsedValue)
   }
   return (
-    <div className="w-full relative">
+    <div className={twMerge('w-full relative', wrapperClassName)}>
       <label
         htmlFor={rest.id}
         className={twMerge(
@@ -44,13 +47,14 @@ const Selector = ({
         {label}
       </label>
       <select
-        className={twMerge('w-full border outline-none px-3 py-2 rounded-xl', label && 'pt-6')}
+        className={twMerge(
+          'w-full border outline-none px-3 py-2 rounded-xl',
+          label && 'pt-6',
+          selectorClassName,
+        )}
         onChange={handleChange}
-        defaultValue={selected}
+        value={selected as string}
       >
-        <option value="" disabled>
-          {defaultText}
-        </option>
         {options.map((option) => (
           <option key={option.value} value={option.value} disabled={option.disabled}>
             {option.title}

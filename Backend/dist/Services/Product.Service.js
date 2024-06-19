@@ -19,7 +19,7 @@ const productNotFoundError = new CustomError_1.CustomError("Product not found", 
 class ProductServices {
     constructor() {
         this.findAll = (criteria) => __awaiter(this, void 0, void 0, function* () {
-            const { category, isArchived, maxPrice, minPrice, onlySales, title, page = 1, pageSize = 10, } = criteria;
+            const { category, isArchived, maxPrice, minPrice, onlySales, title, page = 1, pageSize = 12, } = criteria;
             const query = {};
             // Calculate offset and limit
             const limit = pageSize;
@@ -39,30 +39,30 @@ class ProductServices {
                 query.isArchived = isArchived;
             if (title)
                 query.title = { $regex: title, $options: "i" };
-            if (onlySales)
+            if (String(onlySales) === "true")
                 query.salePrice = { $ne: null };
             // Handling price filters
             if (minPrice || maxPrice) {
-                query.$or = [];
-                // Define the min and max price conditions for salePrice and regular price
-                const salePriceCondition = {};
-                const regularPriceCondition = {};
-                if (minPrice) {
-                    salePriceCondition.salePrice = { $gte: minPrice };
-                    regularPriceCondition.price = { $gte: minPrice };
+                const priceFilter = {};
+                if (minPrice && maxPrice) {
+                    priceFilter.$or = [
+                        { salePrice: { $gte: minPrice, $lte: maxPrice } },
+                        { salePrice: null, price: { $gte: minPrice, $lte: maxPrice } },
+                    ];
                 }
-                if (maxPrice) {
-                    salePriceCondition.salePrice = Object.assign(Object.assign({}, salePriceCondition.salePrice), { $lte: maxPrice });
-                    regularPriceCondition.price = Object.assign(Object.assign({}, regularPriceCondition.price), { $lte: maxPrice });
+                else if (minPrice) {
+                    priceFilter.$or = [
+                        { salePrice: { $gte: minPrice } },
+                        { salePrice: null, price: { $gte: minPrice } },
+                    ];
                 }
-                // Add conditions to query
-                if (Object.keys(salePriceCondition).length > 0) {
-                    salePriceCondition.salePrice = Object.assign(Object.assign({}, salePriceCondition.salePrice), { $ne: null });
-                    query.$or.push(salePriceCondition);
+                else if (maxPrice) {
+                    priceFilter.$or = [
+                        { salePrice: { $lte: maxPrice } },
+                        { salePrice: null, price: { $lte: maxPrice } },
+                    ];
                 }
-                if (Object.keys(regularPriceCondition).length > 0) {
-                    query.$or.push(regularPriceCondition);
-                }
+                query.$and = [priceFilter];
             }
             // Count total matching documents
             const total = yield Product_Model_1.Product.countDocuments(query);

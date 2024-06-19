@@ -20,7 +20,7 @@ class ProductServices {
       onlySales,
       title,
       page = 1,
-      pageSize = 10,
+      pageSize = 12,
     } = criteria
 
     const query: any = {}
@@ -41,36 +41,32 @@ class ProductServices {
     if (category) query.category = categoryId
     if (typeof isArchived !== "undefined") query.isArchived = isArchived
     if (title) query.title = { $regex: title, $options: "i" }
-    if (onlySales) query.salePrice = { $ne: null }
+    if (String(onlySales) === "true") query.salePrice = { $ne: null }
 
     // Handling price filters
     if (minPrice || maxPrice) {
-      query.$or = []
+      const priceFilter: any = {}
 
-      // Define the min and max price conditions for salePrice and regular price
-      const salePriceCondition: any = {}
-      const regularPriceCondition: any = {}
-
-      if (minPrice) {
-        salePriceCondition.salePrice = { $gte: minPrice }
-        regularPriceCondition.price = { $gte: minPrice }
+      if (minPrice && maxPrice) {
+        priceFilter.$or = [
+          { salePrice: { $gte: minPrice, $lte: maxPrice } },
+          { salePrice: null, price: { $gte: minPrice, $lte: maxPrice } },
+        ]
+      } else if (minPrice) {
+        priceFilter.$or = [
+          { salePrice: { $gte: minPrice } },
+          { salePrice: null, price: { $gte: minPrice } },
+        ]
+      } else if (maxPrice) {
+        priceFilter.$or = [
+          { salePrice: { $lte: maxPrice } },
+          { salePrice: null, price: { $lte: maxPrice } },
+        ]
       }
 
-      if (maxPrice) {
-        salePriceCondition.salePrice = { ...salePriceCondition.salePrice, $lte: maxPrice }
-        regularPriceCondition.price = { ...regularPriceCondition.price, $lte: maxPrice }
-      }
-
-      // Add conditions to query
-      if (Object.keys(salePriceCondition).length > 0) {
-        salePriceCondition.salePrice = { ...salePriceCondition.salePrice, $ne: null }
-        query.$or.push(salePriceCondition)
-      }
-
-      if (Object.keys(regularPriceCondition).length > 0) {
-        query.$or.push(regularPriceCondition)
-      }
+      query.$and = [priceFilter]
     }
+
     // Count total matching documents
     const total = await Product.countDocuments(query)
 

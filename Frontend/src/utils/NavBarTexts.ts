@@ -4,15 +4,15 @@ export const NavBarTexts = [
     url: '/',
   },
   {
-    title: 'ჩვენს შესახებ',
-    url: '/about',
-  },
-  {
     title: 'მაღაზია',
     url: '/shop',
   },
-  {
-    title: 'კონტაქტი',
-    url: '/contact',
-  },
+  // {
+  //   title: 'ჩვენს შესახებ',
+  //   url: '/about',
+  // },
+  // {
+  //   title: 'კონტაქტი',
+  //   url: '/contact',
+  // },
 ]

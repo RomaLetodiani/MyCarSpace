@@ -7,6 +7,7 @@ export default {
         primary: '#042890',
         secondary: '#0A6FA0',
         purple: '#84A3FF',
+        danger: '#FF0000',
       },
 
       gradientColorStops: {
