@@ -28,8 +28,8 @@ const Header = () => {
       <div
         ref={headerRef}
         className={twMerge(
-          'w-full h-[100px] bg-purple/10 bg-center p-5 flex justify-between items-center gap-10 shadow-lg',
-          !isSmallScreen && 'shadow-sky-100',
+          'w-full h-[100px] bg-gradient-to-br from-slate-100 to-cyan-50 bg-center p-5 flex justify-between items-center gap-10 shadow-lg',
+          !isSmallScreen && 'shadow-[0px_5px_10px_rgba(0,0,0,0.1)]',
         )}
       >
         <Logo maxWidth="w-[100px]" />
@@ -38,7 +38,7 @@ const Header = () => {
         {!isDesktop && <Burger open={isMenuOpen} setOpen={setIsMenuOpen} />}
       </div>
       {isSmallScreen && (
-        <div className="px-5 py-2 bg-purple/10 shadow-sky-100 shadow-lg">
+        <div className="px-5 py-2 bg-purple/10 shadow-[0px_5px_10px_rgba(0,0,0,0.1)]">
           <SearchBar searchInput={searchInput} />
         </div>
       )}
@@ -47,7 +47,7 @@ const Header = () => {
           <Aside isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} isDesktop={isDesktop} />
           <div
             className={twMerge(
-              'absolute h-full transition-all duration-500 right-0 top-0 bg-black/20 backdrop-blur-[1px]',
+              'fixed z-40 h-full transition-all duration-500 right-0 top-0 bg-black/20 backdrop-blur-[1px]',
               isMenuOpen ? 'w-full' : 'w-0',
             )}
           ></div>
