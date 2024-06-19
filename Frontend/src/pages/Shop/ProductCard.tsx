@@ -29,7 +29,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
           ფასი: {product.price}₾
         </p>
         {product.salePrice && (
-          <p className="text-lg leading-5">ფასდაკლებით: {product.salePrice}00₾</p>
+          <p className="text-lg leading-5">ფასდაკლებით: {product.salePrice}₾</p>
         )}
         <p className="text-sm mt-2">{product.description}</p>
       </div>

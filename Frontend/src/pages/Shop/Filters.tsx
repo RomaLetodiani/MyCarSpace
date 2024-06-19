@@ -1,7 +1,7 @@
 import { twMerge } from 'tailwind-merge'
 import FilterStore, { ICategory } from '../../Stores/Filter.Store'
 import useMediaQuery from '../../hooks/useMediaQuery'
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import Burger from '../../components/Burger'
 import Button from '../../components/UI/Button'
 import CheckBox from '../../components/UI/CheckBox'
@@ -10,10 +10,15 @@ import Input from '../../components/UI/Input'
 import useDebounce from '../../hooks/useDebounce'
 import { useInput } from '../../hooks/useInput'
 
-const Filters = () => {
+const Filters = ({
+  isOpen,
+  setIsOpen,
+}: {
+  isOpen: boolean
+  setIsOpen: Dispatch<SetStateAction<boolean>>
+}) => {
   const { setFilterParams, filterParams, totalProducts, categories } = FilterStore()
   const isNotMobile = useMediaQuery('(min-width: 768px)')
-  const [isOpen, setIsOpen] = useState(false)
   const [onlySales, setOnlySales] = useState(filterParams.onlySales || false)
   const [minPrice, setMinPrice] = useState(filterParams.minPrice || 0)
   const [maxPrice, setMaxPrice] = useState(filterParams.maxPrice || 1000)
@@ -21,7 +26,7 @@ const Filters = () => {
 
   const priceOptions = [0, 50, 100, 200, 300, 400, 500, 750, 1000].map((price) => ({
     value: price,
-    title: `${price}₾`,
+    title: `${price} ₾`,
   }))
 
   const handleTitleFilter = (title: string) => {
@@ -34,7 +39,7 @@ const Filters = () => {
     })
   }
 
-  useDebounce(() => handleTitleFilter(titleInput.value as string), 500, [titleInput.value])
+  useDebounce(() => handleTitleFilter(titleInput.value as string), 1000, [titleInput.value])
 
   const handlePriceFilter = () => {
     setFilterParams({
@@ -55,7 +60,7 @@ const Filters = () => {
       {!isNotMobile && (
         <div
           className={twMerge(
-            'absolute z-30 top-0 h-[50px] w-full px-5 py-2 flex items-center justify-between',
+            'sticky bg-white z-30 top-0 h-[50px] w-full px-5 py-2 flex items-center justify-between',
             'shadow-[0px_5px_20px_-5px_rgba(0,0,0,0.3)] text-primary',
           )}
         >
@@ -68,17 +73,25 @@ const Filters = () => {
           <Burger open={isOpen} setOpen={setIsOpen} />
         </div>
       )}
+      {!isNotMobile && (
+        <div
+          className={twMerge(
+            'absolute z-10 w-full transition-all duration-700 ease-in-out top-0 bg-black/20 backdrop-blur-[1px]',
+            isOpen ? 'h-full' : 'h-0',
+          )}
+        ></div>
+      )}
       <div
         className={twMerge(
-          'transition-all duration-500 ease-in-out text-primary',
+          'transition-all duration-300 ease-in-out text-primary',
           isNotMobile
             ? 'flex flex-col shadow-[5px_0px_20px_-5px_rgba(0,0,0,0.3)]'
-            : `absolute left-0 ${
-                isOpen ? '-bottom-[50px]' : '-bottom-full'
-              } w-full h-full bg-white/90 backdrop-blur-sm z-20`,
+            : `absolute top-[50px] ${
+                isOpen ? 'left-0' : '-left-full'
+              } w-full bg-white/90 backdrop-blur-sm z-20 rounded-lg`,
         )}
       >
-        <div className="p-5 py-6 flex flex-row flex-wrap md:flex-col gap-5">
+        <div className="p-5 py-3 flex flex-row flex-wrap justify-between md:flex-col gap-3">
           {isNotMobile && (
             <div>
               <p className="text-lg cursor-pointer font-bold">
@@ -86,12 +99,9 @@ const Filters = () => {
               </p>
             </div>
           )}
-          <div>
-            <Input label="დასახელება" {...titleInput} />
-          </div>
           {categories.length && (
             <div>
-              <h3 className="font-extrabold text-2xl">კატეგორია</h3>
+              <h3 className="font-extrabold text-xl">კატეგორია</h3>
               <ul className="flex flex-col gap-2 text-lg">
                 <li
                   className={twMerge('', !filterParams.category && 'font-bold text-primary-500')}
@@ -112,10 +122,17 @@ const Filters = () => {
                   </li>
                 ))}
               </ul>
+              <div className="mt-3">
+                <Input
+                  wrapperClassName="max-w-[200px]"
+                  label={titleInput.value ? 'დასახელება' : 'ჩაწერეთ დასახელება'}
+                  {...titleInput}
+                />
+              </div>
             </div>
           )}
           <div className="flex flex-col">
-            <h3 className="font-extrabold text-2xl mb-1">
+            <h3 className="font-extrabold text-xl mb-1">
               ფასი <span className="text-xs">(ლარი)</span>
             </h3>
             <div className="flex flex-col md:flex-row items-center justify-start gap-1">

@@ -3,7 +3,7 @@ type SliderProps = {
 }
 
 const Slider = ({ images }: SliderProps) => {
-  console.log('🚀 ~ Slider ~ images:', images)
+  console.log('🔥 ~ Slider ~ images:', images)
   return <div>Slider</div>
 }
 

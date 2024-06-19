@@ -22,7 +22,7 @@ const CheckBox = ({
   return (
     <div className="flex items-center gap-2">
       <label
-        className={twMerge('flex gap-2 items-center', clickable && 'pointer-events-auto')}
+        className={twMerge('flex gap-1 items-center', clickable && 'pointer-events-auto')}
         htmlFor={id}
       >
         <div
@@ -37,7 +37,7 @@ const CheckBox = ({
             )}
           ></div>
         </div>
-        <p>{withText && (checked ? checkedText : uncheckedText)}</p>
+        <p className="text-sm">{withText && (checked ? checkedText : uncheckedText)}</p>
       </label>
       <input {...rest} type="checkbox" className="hidden" id={id} />
     </div>

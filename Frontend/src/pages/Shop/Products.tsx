@@ -18,22 +18,22 @@ const Products = () => {
   return (
     <div className="flex flex-col">
       {!isNotMobile && totalProducts > 12 ? (
-        <div className="border-b py-1 mt-[50px]">
+        <div className="border-b py-1">
           <Pagination page={page} pageSize={12} totalProducts={totalProducts} setPage={setPage} />
         </div>
       ) : null}
-      <div className={twMerge('flex flex-col flex-1', totalProducts < 12 && 'mt-[50px] md:mt-0')}>
-        {loading ? (
+      <div className={twMerge('flex flex-col flex-1')}>
+        {!loading ? (
           <Loading />
-        ) : (
+        ) : filteredProducts.length ? (
           <div className="grid grid-cols-1 min-[500px]:grid-cols-2 min-[1000px]:grid-cols-3 min-[1200px]:grid-cols-4 gap-8 md:gap-4 justify-items-center p-8 md:p-4">
             {filteredProducts.map((p, index) => (
               <ProductCard key={index} product={p} />
             ))}
           </div>
-        )}
+        ) : null}
         {!loading && !totalProducts && (
-          <div className="flex-1 h-full w-full min-w-[375px] text-primary flex justify-center items-center">
+          <div className="flex-1 h-full w-full text-primary flex justify-center items-center">
             <div className="text-center border-dotted border-4 border-primary px-10 py-10 rounded-full">
               <p>პროდუქტი არ მოიძებნა</p>
               <p>გთხოვთ სცადოთ</p>
@@ -42,9 +42,11 @@ const Products = () => {
           </div>
         )}
       </div>
-      <div className="border-t">
-        <Pagination page={page} pageSize={12} totalProducts={totalProducts} setPage={setPage} />
-      </div>
+      {totalProducts > 12 && (
+        <div className="border-t">
+          <Pagination page={page} pageSize={12} totalProducts={totalProducts} setPage={setPage} />
+        </div>
+      )}
     </div>
   )
 }
