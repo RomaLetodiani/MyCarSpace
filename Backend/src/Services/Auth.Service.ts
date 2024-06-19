@@ -24,7 +24,7 @@ class AuthServices {
     const isMatch = await user.comparePassword(password)
 
     if (!isMatch) {
-      throw new CustomError("Invalid credentials", 401)
+      throw new CustomError("Invalid credentials", 400)
     }
 
     // Generate tokens

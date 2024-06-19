@@ -7,7 +7,7 @@ const productService = {
     title: string
     description: string
     price: number
-    salePrice?: number
+    salePrice?: number | null
     countInStock: number
     imageUrls?: string[]
     category: string

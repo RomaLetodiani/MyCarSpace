@@ -33,7 +33,7 @@ const Admin = () => {
     productService
       .allProducts({})
       .then(({ data }) => {
-        setProducts(data)
+        setProducts(data.products)
       })
       .finally(() => {
         setLoadingProducts(false)

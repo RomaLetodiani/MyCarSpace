@@ -4,7 +4,7 @@ import authService from '../../services/Auth.Service'
 import AuthStore from '../../store/Auth.Store'
 import { useInput } from '../../hooks/useInput'
 import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -13,6 +13,7 @@ const Login = () => {
   const navigate = useNavigate()
   const usernameInput = useInput((username) => typeof username === 'string' && username.length > 5)
   const passwordInput = useInput((password) => typeof password === 'string' && password.length > 5)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -22,6 +23,7 @@ const Login = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setLoading(true)
     if (
       !usernameInput.value ||
       !passwordInput.value ||
@@ -39,6 +41,13 @@ const Login = () => {
         toast.success('წარმატებით შეხვედით სისტემაში')
         navigate('/')
       })
+      .catch((err) => {
+        console.log('🔥 ~ .then ~ err:', err)
+        toast.error('არასწორი ინფორმაცია')
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }
   return (
     <div className="flex bg-slate-200 items-center justify-center flex-col flex-1">
@@ -51,7 +60,9 @@ const Login = () => {
       >
         <Input label="Username" {...usernameInput} />
         <Input label="Password" {...passwordInput} />
-        <Button className="bg-sky-300">Sign In</Button>
+        <Button disabled={loading} className="bg-sky-300">
+          Sign In
+        </Button>
       </form>
     </div>
   )

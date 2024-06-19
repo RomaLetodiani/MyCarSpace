@@ -12,15 +12,28 @@ class ProductServices {
     this.categoryServices = new CategoryServices()
   }
   findAll = async (criteria: productParamsDTO) => {
-    const { category, isArchived, maxPrice, minPrice, onlySales, title } = criteria
+    const {
+      category,
+      isArchived,
+      maxPrice,
+      minPrice,
+      onlySales,
+      title,
+      page = 1,
+      pageSize = 10,
+    } = criteria
 
     const query: any = {}
 
-    let categoryId
+    // Calculate offset and limit
+    const limit = pageSize
+    const skip = (page - 1) * pageSize
 
+    // Find category by name
+    let categoryId
     if (category) {
       const categoryFromDb = await this.categoryServices.findOneByName({ name: category })
-      if (!categoryFromDb) return []
+      if (!categoryFromDb) return { products: [], total: 0 }
       categoryId = categoryFromDb._id
     }
 
@@ -58,9 +71,19 @@ class ProductServices {
         query.$or.push(regularPriceCondition)
       }
     }
+    // Count total matching documents
+    const total = await Product.countDocuments(query)
 
-    const products = await Product.find(query).sort({ createdAt: -1 }).populate("category")
-    return products
+    const products = await Product.find(query)
+      .sort({ createdAt: -1 })
+      .populate("category")
+      .skip(skip)
+      .limit(limit)
+
+    return {
+      products,
+      total,
+    }
   }
 
   findOne = async ({ id }: idDTO) => {
@@ -79,7 +102,12 @@ class ProductServices {
   }
 
   update = async ({ id, productData }: { id: string; productData: productCreateDTO }) => {
-    const product = await Product.findOneAndUpdate({ _id: id }, productData, { new: true })
+    const imageUrls = productData.imageUrls.map((b64) => "data:image/png;base64," + b64)
+    const product = await Product.findOneAndUpdate(
+      { _id: id },
+      { ...productData, imageUrls },
+      { new: true },
+    ).populate("category")
     if (!product) throw productNotFoundError
     return product
   }

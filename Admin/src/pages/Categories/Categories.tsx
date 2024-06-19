@@ -106,8 +106,7 @@ const Categories = () => {
       .createCategory({ name: addInput.value as string })
       .then(({ data }) => {
         setCategories([...categories, data])
-        setAddMode(false)
-        addInput.clear()
+        handleCancel()
         toast.success('კატეგორია შექმნილია')
       })
       .catch(() => {
