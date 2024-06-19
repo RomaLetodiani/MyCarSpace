@@ -23,7 +23,7 @@ const Products = () => {
         </div>
       ) : null}
       <div className={twMerge('flex flex-col flex-1')}>
-        {!loading ? (
+        {loading ? (
           <Loading />
         ) : filteredProducts.length ? (
           <div className="grid grid-cols-1 min-[500px]:grid-cols-2 min-[1000px]:grid-cols-3 min-[1200px]:grid-cols-4 gap-8 md:gap-4 justify-items-center p-8 md:p-4">
