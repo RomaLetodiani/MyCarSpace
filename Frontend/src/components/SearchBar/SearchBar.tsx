@@ -68,7 +68,7 @@ const SearchBar = ({ searchInput }: { searchInput: InputState }) => {
 
   return (
     <div
-      className={twMerge('transition-all relative ease-in-out duration-500 md:px-4 flex-1')}
+      className={twMerge('transition-all relative ease-in-out duration-500 flex-1')}
       ref={containerRef}
     >
       <Input

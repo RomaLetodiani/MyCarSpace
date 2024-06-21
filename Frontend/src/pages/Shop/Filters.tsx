@@ -9,6 +9,7 @@ import Selector from '../../components/UI/Selector'
 import Input from '../../components/UI/Input'
 import useDebounce from '../../hooks/useDebounce'
 import { useInput } from '../../hooks/useInput'
+import { toast } from 'react-toastify'
 
 const Filters = ({
   isOpen,
@@ -24,7 +25,7 @@ const Filters = ({
   const [maxPrice, setMaxPrice] = useState(filterParams.maxPrice || 1000)
   const titleInput = useInput(() => true, filterParams.title || '')
 
-  const priceOptions = [0, 50, 100, 200, 300, 400, 500, 750, 1000].map((price) => ({
+  const priceOptions = [0, 50, 100, 200, 300, 400, 500, 750, 1000, 2000, 3000].map((price) => ({
     value: price,
     title: `${price} ₾`,
   }))
@@ -42,6 +43,10 @@ const Filters = ({
   useDebounce(() => handleTitleFilter(titleInput.value as string), 1000, [titleInput.value])
 
   const handlePriceFilter = () => {
+    if (minPrice > maxPrice || minPrice < 0 || maxPrice < 0 || minPrice > 3000 || maxPrice > 3000) {
+      toast.error('გთხოვთ მიუთითოთ ფასის სწორი მონაცემები')
+      return
+    }
     setFilterParams({
       minPrice,
       maxPrice,
@@ -88,7 +93,7 @@ const Filters = ({
             ? 'flex flex-col shadow-[5px_0px_20px_-5px_rgba(0,0,0,0.3)]'
             : `absolute top-[50px] ${
                 isOpen ? 'left-0' : '-left-full'
-              } w-full bg-white/90 backdrop-blur-sm z-20 rounded-lg`,
+              } w-full bg-white backdrop-blur-sm z-20 rounded-lg`,
         )}
       >
         <div className="p-5 py-3 flex flex-row flex-wrap justify-between md:flex-col gap-3">

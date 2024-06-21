@@ -14,7 +14,7 @@ type OptionsProps = {
 const Options = ({ loading, searchInput, searchResults, total, error }: OptionsProps) => {
   const { setFilterParams } = FilterStore()
   return (
-    <div className="absolute z-[999] drop-shadow-lg w-full md:w-[95.7%] bg-white flex flex-col overflow-y-auto max-h-[450px] border rounded-b-xl">
+    <div className="absolute z-[999] drop-shadow-lg w-full bg-white flex flex-col overflow-y-auto max-h-[450px] border rounded-b-xl">
       {!searchResults.length && (
         <div className="p-5">
           {renderConditionals({ loading, error, length: searchResults.length })}

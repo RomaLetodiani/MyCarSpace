@@ -16,7 +16,7 @@ const Products = () => {
   }, [page])
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col flex-1">
       {!isNotMobile && totalProducts > 12 ? (
         <div className="border-b py-1">
           <Pagination page={page} pageSize={12} totalProducts={totalProducts} setPage={setPage} />
