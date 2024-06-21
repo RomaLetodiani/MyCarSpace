@@ -83,7 +83,7 @@ class ProductServices {
   }
 
   findOne = async ({ id }: idDTO) => {
-    const product = await Product.find({ _id: id }).populate("category")
+    const product = await Product.findById(id).populate("category")
     if (!product) throw productNotFoundError
     return product
   }
