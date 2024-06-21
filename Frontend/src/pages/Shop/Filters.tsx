@@ -128,6 +128,7 @@ const Filters = ({
                 ))}
               </ul>
               <div className="mt-3">
+                <h3 className="font-extrabold text-xl mb-1">სახელი</h3>
                 <Input
                   wrapperClassName="max-w-[200px]"
                   label={titleInput.value ? 'დასახელება' : 'ჩაწერეთ დასახელება'}

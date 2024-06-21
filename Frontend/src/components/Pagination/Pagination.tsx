@@ -31,7 +31,7 @@ const Pagination = ({ page, pageSize, totalProducts, setPage }: PaginationProps)
                 setPage(p as number)
               }}
               page={p as number}
-              isInRange={Number(page) + 1 === page || Number(page) - 1 === page}
+              isInRange={Number(p) + 1 === page || Number(p) - 1 === page}
               key={index}
             />
           ))}
