@@ -31,7 +31,9 @@ const Admin = () => {
     setLoadingCategories(true)
     setLoadingProducts(true)
     productService
-      .allProducts({})
+      .allProducts({
+        pageSize: 500,
+      })
       .then(({ data }) => {
         setProducts(data.products)
       })
