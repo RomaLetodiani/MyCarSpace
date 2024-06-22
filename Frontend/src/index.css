@@ -14,6 +14,7 @@
 /* This styles the main scrollbar container */
 ::-webkit-scrollbar {
   width: 8px; /* width of the entire scrollbar */
+  height: 4px; /* height of the entire scrollbar */
 }
 
 /* This styles the scrollbar track (the part the thumb slides within) */
@@ -23,7 +24,7 @@
 
 /* This styles the scrollbar thumb (the draggable element) */
 ::-webkit-scrollbar-thumb {
-  background: #888; /* color of the thumb */
+  background: #0a6fa0; /* color of the thumb */
   border-radius: 6px; /* roundness of the thumb */
   transition: all 0.5s;
 }

@@ -3,6 +3,7 @@ import { logo } from '../../assets'
 import { IProduct } from '../../Stores/Filter.Store'
 import { sliceText } from '../../utils/Helpers'
 import { Link } from 'react-router-dom'
+import PriceRender from '../../components/PriceRender'
 
 const ProductCard = ({ product }: { product: IProduct }) => {
   return (
@@ -15,7 +16,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
           'bg-gradient-to-br from-cyan-50 to-slate-100',
           !!product.salePrice && 'bg-gradient-to-tl from-rose-200 to-red-50',
           'flex flex-col gap-2',
-          'min-h-[320px] max-w-[250px] p-3',
+          'min-h-[375px] max-w-[250px] p-3',
         )}
       >
         <div className="overflow-hidden rounded-xl bg-white border-secondary border-2 border-t-4 border-l-4 shadow-inner p-5">
@@ -28,12 +29,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
         <div>
           {product.salePrice && <h6 className="text-danger font-bold">ფასდაკლება</h6>}
           <h5 className="font-semibold">{product.title}</h5>
-          <p className={twMerge('text-base', product.salePrice && 'line-through text-sm')}>
-            ფასი: {product.price}₾
-          </p>
-          {product.salePrice && (
-            <p className="text-lg leading-5 font-semibold">ფასდაკლებით: {product.salePrice}₾</p>
-          )}
+          <PriceRender price={product.price} salePrice={product.salePrice as number} />
           <p className="text-sm mt-2">{sliceText(product.description, 40)}</p>
         </div>
       </div>

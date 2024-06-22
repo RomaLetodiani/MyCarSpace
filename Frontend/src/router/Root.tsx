@@ -7,7 +7,7 @@ import { ToastContainer } from 'react-toastify'
 const Root = () => {
   HandleProducts()
   return (
-    <div className="min-w-[375px] w-full min-h-screen flex flex-col">
+    <div className="min-w-[375px] w-full min-h-screen flex flex-col text-primary">
       <ToastContainer />
       <Header />
       <div className="w-full flex flex-col flex-1">
