@@ -1,7 +1,7 @@
 import api from '../utils/api'
 
 const productService = {
-  allProducts: async (params: any) => api.get('/product', params),
+  allProducts: async (params: any) => api.get('/product', { params }),
   getProduct: async (id: string) => api.get(`/product/${id}`),
   createProduct: async (body: {
     title: string
