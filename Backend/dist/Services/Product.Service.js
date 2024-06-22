@@ -77,7 +77,7 @@ class ProductServices {
             };
         });
         this.findOne = (_a) => __awaiter(this, [_a], void 0, function* ({ id }) {
-            const product = yield Product_Model_1.Product.find({ _id: id }).populate("category");
+            const product = yield Product_Model_1.Product.findById(id).populate("category");
             if (!product)
                 throw productNotFoundError;
             return product;
