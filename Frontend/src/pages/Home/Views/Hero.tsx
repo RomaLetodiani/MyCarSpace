@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 const Hero = () => {
   const [bgIndex, setBgIndex] = useState(0)
-  const heroBgs = ['bg-hero-1', 'bg-hero-2', 'bg-hero-3', 'bg-hero-4', 'bg-hero-5']
+  const heroBgs = ['bg-hero-1', 'bg-hero-2', 'bg-hero-3', 'bg-hero-4', 'bg-hero-5', 'bg-hero-6']
 
   useEffect(() => {
     const interval = setInterval(() => {

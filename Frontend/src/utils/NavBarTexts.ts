@@ -4,7 +4,7 @@ export const NavBarTexts = [
     url: '/',
   },
   {
-    title: 'მაღაზია',
+    title: 'ავტონაწილები',
     url: '/shop',
   },
   // {

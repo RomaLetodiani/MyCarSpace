@@ -12,13 +12,17 @@ const fetchProducts = () => {
     productService
       .allProducts({ page: 1, pageSize: 8 })
       .then(({ data }) => {
-        setProducts(data.products)
+        if (data.products) {
+          setProducts(data.products)
+        }
       })
       .then(async () => {
         await productService
           .allProducts({ page: 1, pageSize: 12, onlySales: true })
           .then(({ data }) => {
-            setSaleProducts(data.products)
+            if (data.products) {
+              setSaleProducts(data.products)
+            }
           })
       })
       .finally(() => {

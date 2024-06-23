@@ -4,6 +4,9 @@ import logo from './Images/Logo.png'
 import slider1 from './Images/Slider/1.jpg'
 import slider2 from './Images/Slider/2.jpg'
 import slider3 from './Images/Slider/3.jpg'
+import slider4 from './Images/Slider/4.jpg'
+import slider5 from './Images/Slider/5.jpg'
+import slider6 from './Images/Slider/6.jpg'
 
 // Parts Images
 import parts1 from './Images/Parts/1.png'
@@ -27,6 +30,9 @@ export {
   slider1,
   slider2,
   slider3,
+  slider4,
+  slider5,
+  slider6,
   hours24,
   invoice,
   delivery,

@@ -15,6 +15,7 @@ export default {
         'hero-3': 'url("/src/assets/Images/Slider/3.jpg")',
         'hero-4': 'url("/src/assets/Images/Slider/4.jpg")',
         'hero-5': 'url("/src/assets/Images/Slider/5.jpg")',
+        'hero-6': 'url("/src/assets/Images/Slider/6.jpg")',
       },
       gradientColorStops: {
         oceanBlue: '#042890',

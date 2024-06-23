@@ -20,15 +20,19 @@ const HandleProducts = () => {
     productService
       .allProducts(filterParams)
       .then(({ data }) => {
-        setFilteredProducts(data.products)
-        setTotalProducts(data.total)
+        if (data.products) {
+          setFilteredProducts(data.products)
+          setTotalProducts(data.total)
+        }
       })
       .finally(() => setLoading(false))
   }, [filterParams])
 
   useEffect(() => {
     categoryService.allCategories().then(({ data }) => {
-      setCategories(data)
+      if (typeof data === 'object' && data) {
+        setCategories(data)
+      }
     })
 
     return () => {
