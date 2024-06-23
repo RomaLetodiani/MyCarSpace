@@ -1,7 +1,7 @@
 import PriceRender from '../../components/PriceRender'
 import Products from '../Home/Views/Products'
 import Loading from '../Loading/Loading'
-import FetchProduct from './FetchProduct'
+import FetchProduct from './Hooks/FetchProduct'
 import Images from './Images'
 
 const Product = () => {

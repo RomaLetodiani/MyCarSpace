@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { IProduct } from '../../Stores/Filter.Store'
-import productService from '../../services/Product.Service'
 import { useParams } from 'react-router-dom'
+import productService from '../../../services/Product.Service'
+import { IProduct } from '../../../Stores/Filter.Store'
 
 const FetchProduct = () => {
   const { id } = useParams()
