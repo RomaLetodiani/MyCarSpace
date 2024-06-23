@@ -1,29 +1,14 @@
 import BottomFooter from '../../Layout/BottomFooter'
-import GlobalStore from '../../Stores/Global.Store'
-import Loading from '../Loading/Loading'
 import Hero from './Views/Hero'
 import Parts from './Views/Parts'
-import Products from './Views/Products'
-import Sales from './Views/Sales'
+import RenderProducts from './Views/RenderProducts'
 
 const Home = () => {
-  const { loading } = GlobalStore()
   return (
     <div>
       <Hero />
       <Parts />
-      <div className="min-h-screen">
-        {loading ? (
-          <div className="flex justify-center items-center min-h-screen">
-            <Loading />
-          </div>
-        ) : (
-          <>
-            <Sales />
-            <Products />
-          </>
-        )}
-      </div>
+      <RenderProducts />
       <BottomFooter />
     </div>
   )

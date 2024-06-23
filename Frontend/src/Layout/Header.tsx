@@ -29,7 +29,7 @@ const Header = () => {
         ref={headerRef}
         className={twMerge(
           'w-full h-[100px] bg-gradient-to-br from-slate-100 to-cyan-50 bg-center p-5 flex justify-between items-center gap-10 shadow-lg',
-          !isSmallScreen && 'shadow-[0px_5px_10px_rgba(0,0,0,0.1)]',
+          !isSmallScreen && 'shadow-none',
         )}
       >
         <Logo maxWidth="w-[100px]" />

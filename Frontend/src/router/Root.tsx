@@ -6,6 +6,8 @@ import { ToastContainer } from 'react-toastify'
 import fetchProducts from '../pages/Home/Views/Hooks/FetchProducts'
 const Root = () => {
   fetchProducts()
+  console.log('🚀 ~ useEffect ~ loading:')
+
   return (
     <div className="min-w-[375px] w-full min-h-screen flex flex-col text-primary">
       <ToastContainer />

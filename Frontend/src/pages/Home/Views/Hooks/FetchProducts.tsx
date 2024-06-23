@@ -14,15 +14,15 @@ const fetchProducts = () => {
       .then(({ data }) => {
         setProducts(data.products)
       })
-      .then(() => {
-        productService
+      .then(async () => {
+        await productService
           .allProducts({ page: 1, pageSize: 12, onlySales: true })
           .then(({ data }) => {
             setSaleProducts(data.products)
           })
-          .finally(() => {
-            setLoading(false)
-          })
+      })
+      .finally(() => {
+        setLoading(false)
       })
   }, [])
 }
