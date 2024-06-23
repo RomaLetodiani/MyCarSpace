@@ -38,6 +38,8 @@ interface IFilterStore {
   setFilterParams: (filterData: FilterData) => void
   filteredProducts: IProduct[]
   setFilteredProducts: (products: IProduct[]) => void
+  clearFilters: () => void
+
   totalProducts: number
   setTotalProducts: (total: number) => void
   loading: boolean
@@ -63,6 +65,8 @@ const FilterStore = create<IFilterStore>((set) => ({
     set((state) => ({ filterParams: { ...state.filterParams, ...filterParams } })),
   filteredProducts: [],
   setFilteredProducts: (products) => set({ filteredProducts: products }),
+  clearFilters: () => set({ filterParams: defaultFilterParams }),
+
   totalProducts: 0,
   setTotalProducts: (total) => set({ totalProducts: total }),
   loading: false,

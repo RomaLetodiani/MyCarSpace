@@ -31,6 +31,9 @@ const Filters = ({
   }))
 
   const handleTitleFilter = (title: string) => {
+    if (!isNotMobile) {
+      return
+    }
     if (!title) {
       setFilterParams({ title: undefined })
       return
@@ -42,7 +45,7 @@ const Filters = ({
 
   useDebounce(() => handleTitleFilter(titleInput.value as string), 1000, [titleInput.value])
 
-  const handlePriceFilter = () => {
+  const handleFilters = () => {
     if (minPrice > maxPrice || minPrice < 0 || maxPrice < 0 || minPrice > 3000 || maxPrice > 3000) {
       toast.error('გთხოვთ მიუთითოთ ფასის სწორი მონაცემები')
       return
@@ -51,6 +54,7 @@ const Filters = ({
       minPrice,
       maxPrice,
       onlySales,
+      title: titleInput.value as string,
     })
     setIsOpen(false)
   }
@@ -173,7 +177,7 @@ const Filters = ({
             </div>
             <Button
               className="bg-primary text-white py-2 px-4 rounded-xl mt-5"
-              onClick={handlePriceFilter}
+              onClick={handleFilters}
             >
               გაფილტვრა
             </Button>

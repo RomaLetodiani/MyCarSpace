@@ -11,6 +11,7 @@ const HandleProducts = () => {
     setTotalProducts,
     loading,
     setCategories,
+    clearFilters,
   } = FilterStore()
 
   useEffect(() => {
@@ -29,6 +30,10 @@ const HandleProducts = () => {
     categoryService.allCategories().then(({ data }) => {
       setCategories(data)
     })
+
+    return () => {
+      clearFilters()
+    }
   }, [])
 }
 
