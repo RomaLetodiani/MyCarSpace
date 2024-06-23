@@ -6,6 +6,7 @@ import useMediaQuery from '../../../hooks/useMediaQuery'
 import Button from '../../../components/UI/Button'
 import { Link } from 'react-router-dom'
 import FilterStore from '../../../Stores/Filter.Store'
+import { sliceText } from '../../../utils/Helpers'
 
 const Sales = () => {
   const { setFilterParams } = FilterStore()
@@ -28,13 +29,11 @@ const Sales = () => {
           )}
         >
           {saleProducts.slice(0, total).map((product, index) => (
-            <Link to={`/shop/${product._id}`}>
+            <Link className="max-w-[250px] w-full" key={index} to={`/shop/${product._id}`}>
               <div
-                key={index}
                 className={twMerge(
-                  'text-danger/50 flex flex-col items-center justify-center',
-                  'border-danger/10 border shadow-md rounded-lg p-5',
-                  'max-w-[250px] w-full',
+                  'h-full flex flex-col items-center justify-center',
+                  'text-danger/50 border-danger/10 border shadow-md rounded-lg p-3',
                 )}
               >
                 <div className="max-w-[150px]">
@@ -44,7 +43,7 @@ const Sales = () => {
                     alt={product.title}
                   />
                 </div>
-                <p className="text-primary">{product.title}</p>
+                <p className="text-primary">{sliceText(product.title, 20)}</p>
                 <PriceRender price={product.price} salePrice={product.salePrice} />
               </div>
             </Link>

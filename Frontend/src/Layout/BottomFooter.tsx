@@ -4,7 +4,7 @@ const BottomFooter = () => {
   return (
     <div className="max-w-[1440px] m-auto text-center">
       <h2 className="text-2xl font-semibold">საუკეთესო სერვისი</h2>
-      <div className="grid place-items-center md:place-items-start grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 p-8 md:p-5">
+      <div className="grid place-items-center md:place-items-start grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 px-5 py-10">
         {bottomFooterItems.map((item, index) => (
           <div
             key={index}

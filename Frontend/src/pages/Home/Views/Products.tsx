@@ -5,6 +5,7 @@ import Button from '../../../components/UI/Button'
 import useMediaQuery from '../../../hooks/useMediaQuery'
 import SliderArrow from '../../../components/SliderArrow'
 import { Link } from 'react-router-dom'
+import { sliceText } from '../../../utils/Helpers'
 
 const Products = () => {
   const { products } = GlobalStore()
@@ -28,6 +29,10 @@ const Products = () => {
       })
     }
   }
+
+  const handleProductClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
   return products.length ? (
     <div className="max-w-[1440px] m-auto md:p-5 my-8 text-center">
       <h2 className="text-2xl font-semibold">პროდუქტები</h2>
@@ -40,13 +45,13 @@ const Products = () => {
             </>
           )}
           {products.map((product, index) => (
-            <Link to={`/shop/${product._id}`}>
-              <div key={index} className="min-w-[200px] p-2 rounded-xl border shadow-sm">
+            <Link onClick={handleProductClick} key={index} to={`/shop/${product._id}`}>
+              <div className="min-w-[200px] p-2 rounded-xl border shadow-md">
                 <div className="">
                   <img
                     className="aspect-square"
                     src={product.imageUrls[0] ?? logo}
-                    alt={product.title}
+                    alt={sliceText(product.title, 20)}
                   />
                 </div>
                 <p className="font-bold">{product.title}</p>
