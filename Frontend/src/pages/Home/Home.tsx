@@ -1,13 +1,13 @@
 import BottomFooter from '../../Layout/BottomFooter'
-import fetchProducts from './Views/FetchProducts'
 import Hero from './Views/Hero'
 import Products from './Views/Products'
+import Sales from './Views/Sales'
 
 const Home = () => {
-  fetchProducts()
   return (
     <div>
       <Hero />
+      <Sales />
       <Products />
       <BottomFooter />
     </div>

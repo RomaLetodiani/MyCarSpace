@@ -6,7 +6,7 @@ import NavBar from './NavBar'
 const Footer = () => {
   const isMobile = useMediaQuery('(max-width: 767px)')
   return (
-    <footer className="bg-gradient-to-bl from-slate-100 to-cyan-50 text-secondary">
+    <footer className="bg-gradient-to-bl from-oceanBlue/10 to-white/50  text-secondary">
       <div className="flex items-center justify-between gap-5 w-full p-5">
         <Logo maxWidth="w-[50px] md:w-[80px]" />
         {!isMobile && <NavBar />}

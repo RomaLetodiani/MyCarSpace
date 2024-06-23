@@ -2,9 +2,11 @@ import { useState } from 'react'
 import Filters from './Filters'
 import Products from './Products'
 import { twMerge } from 'tailwind-merge'
+import HandleProducts from './HandleProducts'
 
 const Shop = () => {
   const [isOpen, setIsOpen] = useState(false)
+  HandleProducts()
   return (
     <div
       className={twMerge(

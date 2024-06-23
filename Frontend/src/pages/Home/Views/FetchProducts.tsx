@@ -10,7 +10,7 @@ const fetchProducts = () => {
       setProducts(data.products)
     })
 
-    productService.allProducts({ page: 1, pageSize: 4, onlySales: true }).then(({ data }) => {
+    productService.allProducts({ page: 1, pageSize: 12, onlySales: true }).then(({ data }) => {
       setSaleProducts(data.products)
     })
   }, [])

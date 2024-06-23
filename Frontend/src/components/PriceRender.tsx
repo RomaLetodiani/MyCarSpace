@@ -2,7 +2,7 @@ import { twMerge } from 'tailwind-merge'
 
 type Props = {
   price: number
-  salePrice: number
+  salePrice: number | null
 }
 
 const PriceRender = ({ price, salePrice }: Props) => {
