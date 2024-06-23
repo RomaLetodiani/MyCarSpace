@@ -1,4 +1,5 @@
 import PriceRender from '../../components/PriceRender'
+import Products from '../Home/Views/Products'
 import Loading from '../Loading/Loading'
 import FetchProduct from './FetchProduct'
 import Images from './Images'
@@ -19,25 +20,28 @@ const Product = () => {
     )
 
   return (
-    <div className="p-5 max-w-[1200px] mx-auto">
-      {product ? (
-        <div className="flex flex-col gap-10 md:flex-row">
-          {product.imageUrls && <Images images={product.imageUrls} />}
-          <div className="flex flex-col gap-5">
-            <div>
-              <h1 className="text-3xl mb-1 font-bold">{product.title}</h1>
-              <p className="text-lg font-semibold text-gray-500">
-                კატეგორია: {product.category.name}
-              </p>
-            </div>
-            <PriceRender price={product.price} salePrice={product.salePrice as number} />
-            <div>
-              <h3 className="text-lg font-semibold">აღწერა:</h3>
-              <p>{product.description}</p>
+    <div>
+      <div className="p-5 max-w-[1300px] mx-auto">
+        {product ? (
+          <div className="flex flex-col gap-10 md:flex-row">
+            {product.imageUrls && <Images images={product.imageUrls} />}
+            <div className="flex flex-col gap-5">
+              <div>
+                <h1 className="text-3xl mb-1 font-bold">{product.title}</h1>
+                <p className="text-lg font-semibold text-gray-500">
+                  კატეგორია: {product.category.name}
+                </p>
+              </div>
+              <PriceRender price={product.price} salePrice={product.salePrice as number} />
+              <div>
+                <h3 className="text-lg font-semibold">აღწერა:</h3>
+                <p>{product.description}</p>
+              </div>
             </div>
           </div>
-        </div>
-      ) : null}
+        ) : null}
+      </div>
+      <Products />
     </div>
   )
 }
