@@ -3,9 +3,10 @@ import { twMerge } from 'tailwind-merge'
 type Props = {
   direction: 'left' | 'right'
   onClick: () => void
+  disabled?: boolean
 }
 
-const SliderArrow = ({ direction, onClick }: Props) => {
+const SliderArrow = ({ direction, onClick, disabled = false }: Props) => {
   const isLeft = direction === 'left'
   return (
     <div
@@ -14,7 +15,7 @@ const SliderArrow = ({ direction, onClick }: Props) => {
         'flex items-center justify-center',
         isLeft ? 'left-0' : 'right-0',
       )}
-      onClick={onClick}
+      onClick={disabled ? () => {} : onClick}
     >
       <span
         className={twMerge(
@@ -22,6 +23,7 @@ const SliderArrow = ({ direction, onClick }: Props) => {
           'flex items-center justify-center',
           'transition-all duration-300 ease-in-out',
           'bg-slate-100 hover:bg-slate-200',
+          disabled && 'opacity-50 bg-slate-50',
           isLeft && 'transform rotate-180',
         )}
       >
