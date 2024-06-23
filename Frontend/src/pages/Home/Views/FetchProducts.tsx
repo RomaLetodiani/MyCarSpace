@@ -3,16 +3,27 @@ import GlobalStore from '../../../Stores/Global.Store'
 import productService from '../../../services/Product.Service'
 
 const fetchProducts = () => {
-  const { setProducts, setSaleProducts } = GlobalStore()
+  const { setProducts, setSaleProducts, setLoading, loading } = GlobalStore()
 
   useEffect(() => {
-    productService.allProducts({ page: 1, pageSize: 8 }).then(({ data }) => {
-      setProducts(data.products)
-    })
+    if (loading) return
 
-    productService.allProducts({ page: 1, pageSize: 12, onlySales: true }).then(({ data }) => {
-      setSaleProducts(data.products)
-    })
+    setLoading(true)
+    productService
+      .allProducts({ page: 1, pageSize: 8 })
+      .then(({ data }) => {
+        setProducts(data.products)
+      })
+      .then(() => {
+        productService
+          .allProducts({ page: 1, pageSize: 12, onlySales: true })
+          .then(({ data }) => {
+            setSaleProducts(data.products)
+          })
+          .finally(() => {
+            setLoading(false)
+          })
+      })
   }, [])
 }
 

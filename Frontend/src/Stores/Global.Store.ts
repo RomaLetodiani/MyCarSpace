@@ -6,6 +6,8 @@ interface IGlobalStore {
   setProducts: (products: IProduct[]) => void
   saleProducts: IProduct[]
   setSaleProducts: (products: IProduct[]) => void
+  loading: boolean
+  setLoading: (loading: boolean) => void
 }
 
 const GlobalStore = create<IGlobalStore>((set) => ({
@@ -13,6 +15,8 @@ const GlobalStore = create<IGlobalStore>((set) => ({
   setProducts: (products) => set({ products }),
   saleProducts: [],
   setSaleProducts: (saleProducts) => set({ saleProducts }),
+  loading: false,
+  setLoading: (loading) => set({ loading }),
 }))
 
 export default GlobalStore
