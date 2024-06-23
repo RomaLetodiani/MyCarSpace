@@ -3,7 +3,7 @@ import Header from '../Layout/Header'
 import Footer from '../Layout/Footer'
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify'
-import fetchProducts from '../pages/Home/Views/FetchProducts'
+import fetchProducts from '../pages/Home/Views/Hooks/FetchProducts'
 const Root = () => {
   fetchProducts()
   return (

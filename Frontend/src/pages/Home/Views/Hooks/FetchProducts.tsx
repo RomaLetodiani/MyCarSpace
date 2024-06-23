@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import GlobalStore from '../../../Stores/Global.Store'
-import productService from '../../../services/Product.Service'
+import GlobalStore from '../../../../Stores/Global.Store'
+import productService from '../../../../services/Product.Service'
 
 const fetchProducts = () => {
   const { setProducts, setSaleProducts, setLoading, loading } = GlobalStore()
