@@ -19,7 +19,7 @@ const Sales = () => {
   const total = isNotTablet ? 8 : isNotMobile ? 9 : 4
   return (
     saleProducts.length > 2 && (
-      <div className="max-w-[1440px] m-auto p-5 text-center">
+      <div className="max-w-[1440px] m-auto p-5 shadow-sm text-center">
         <h2 className="text-2xl font-semibold mb-5">ფასდაკლებები</h2>
         <div
           className={twMerge(

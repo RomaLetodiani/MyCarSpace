@@ -34,8 +34,8 @@ const Products = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
   return products.length ? (
-    <div className="max-w-[1440px] m-auto md:p-5 my-8 text-center">
-      <h2 className="text-2xl font-semibold">პროდუქტები</h2>
+    <div className="max-w-[1440px] shadow-lg m-auto md:p-5 py-8 text-center">
+      <h2 className="text-2xl font-semibold">ავტონაწილები</h2>
       <div className="relative overflow-hidden md:px-10 p-5">
         <div ref={scrollRef} className="flex overflow-x-auto py-2 gap-5">
           {isNotMobile && (

@@ -2,7 +2,7 @@ import { bottomFooterItems } from '../utils/BottomFooterItems'
 
 const BottomFooter = () => {
   return (
-    <div className="max-w-[1440px] m-auto text-center">
+    <div className="max-w-[1440px] pt-5 bg-slate-50 m-auto text-center">
       <h2 className="text-2xl font-semibold">საუკეთესო სერვისი</h2>
       <div className="grid place-items-center md:place-items-start grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 px-5 py-10">
         {bottomFooterItems.map((item, index) => (
