@@ -3,19 +3,18 @@ import { useEffect, useState } from 'react'
 import Button from '../../../components/UI/Button'
 import { Link } from 'react-router-dom'
 import usePreloadImages from '../../../hooks/usePreloadImages'
+import bgHero1 from '../../../assets/Images/Slider/1.jpg'
+import bgHero2 from '../../../assets/Images/Slider/2.jpg'
+import bgHero3 from '../../../assets/Images/Slider/3.jpg'
+import bgHero4 from '../../../assets/Images/Slider/4.jpg'
+import bgHero5 from '../../../assets/Images/Slider/5.jpg'
+import bgHero6 from '../../../assets/Images/Slider/6.jpg'
+
+const imageUrls = [bgHero1, bgHero2, bgHero3, bgHero4, bgHero5, bgHero6]
 
 const Hero = () => {
   const [bgIndex, setBgIndex] = useState(0)
   const heroBgs = ['bg-hero-1', 'bg-hero-2', 'bg-hero-3', 'bg-hero-4', 'bg-hero-5', 'bg-hero-6']
-
-  const imageUrls = [
-    '/src/assets/Images/Slider/1.jpg',
-    '/src/assets/Images/Slider/2.jpg',
-    '/src/assets/Images/Slider/3.jpg',
-    '/src/assets/Images/Slider/4.jpg',
-    '/src/assets/Images/Slider/5.jpg',
-    '/src/assets/Images/Slider/6.jpg',
-  ]
 
   usePreloadImages(imageUrls)
 
