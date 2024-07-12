@@ -11,6 +11,17 @@
   font-family: 'Outfit', sans-serif;
 }
 
+body::after {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  z-index: -1;
+  content: url('/src/assets/Images/Slider/1.jpg') url('/src/assets/Images/Slider/2.jpg')
+    url('/src/assets/Images/Slider/3.jpg') url('/src/assets/Images/Slider/4.jpg')
+    url('/src/assets/Images/Slider/5.jpg') url('/src/assets/Images/Slider/6.jpg');
+}
+
 /* This styles the main scrollbar container */
 ::-webkit-scrollbar {
   width: 8px; /* width of the entire scrollbar */
